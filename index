@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LifeOS v2.0 — Smart Life Automator</title>
+    
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#090d16">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3079/3079164.png">
+
     <style>
         :root {
             --bg-body: #090d16;
             --bg-card: #151c2c;
-            --bg-card-hover: #1e293b;
             --accent-primary: #38bdf8;
             --accent-success: #34d399;
             --accent-warning: #fbbf24;
@@ -20,52 +27,163 @@
             --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-body); color: var(--text-main); padding: 16px; max-width: 480px; margin: 0 auto; padding-bottom: 40px; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        body { 
+            background-color: var(--bg-body); 
+            color: var(--text-main); 
+            padding: 16px; 
+            max-width: 480px; 
+            margin: 0 auto; 
+            padding-bottom: 40px; 
+        }
 
         /* Navigation Tabs */
-        .app-nav { display: flex; background: var(--bg-card); padding: 4px; border-radius: var(--radius-md); margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
-        .nav-btn { flex: 1; padding: 10px; border: none; background: transparent; color: var(--text-muted); font-weight: 600; font-size: 0.85rem; border-radius: 8px; cursor: pointer; transition: var(--transition); }
-        .nav-btn.active { background: var(--accent-primary); color: #090d16; }
+        .app-nav { 
+            display: flex; 
+            background: var(--bg-card); 
+            padding: 4px; 
+            border-radius: var(--radius-md); 
+            margin-bottom: 20px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+        }
+
+        .nav-btn { 
+            flex: 1; 
+            padding: 10px; 
+            border: none; 
+            background: transparent; 
+            color: var(--text-muted); 
+            font-weight: 600; 
+            font-size: 0.85rem; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: var(--transition); 
+        }
+
+        .nav-btn.active { 
+            background: var(--accent-primary); 
+            color: #090d16; 
+        }
 
         .view { display: none; }
         .view.active { display: block; }
 
-        /* General Card Styles */
-        .card { background: var(--bg-card); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.05); }
-        .card-title { font-size: 1rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        /* Card Styles */
+        .card { 
+            background: var(--bg-card); 
+            border-radius: var(--radius-lg); 
+            padding: 18px; 
+            margin-bottom: 16px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+        }
+
+        .card-title { 
+            font-size: 1rem; 
+            font-weight: 700; 
+            color: var(--accent-primary); 
+            margin-bottom: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
 
         /* Range Slider Styling */
-        .custom-slider { width: 100%; height: 6px; background: #273549; border-radius: 4px; outline: none; -webkit-appearance: none; margin: 10px 0; }
-        .custom-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--accent-primary); cursor: pointer; }
+        .custom-slider { 
+            width: 100%; 
+            height: 6px; 
+            background: #273549; 
+            border-radius: 4px; 
+            outline: none; 
+            -webkit-appearance: none; 
+            margin: 10px 0; 
+        }
+
+        .custom-slider::-webkit-slider-thumb { 
+            -webkit-appearance: none; 
+            width: 18px; 
+            height: 18px; 
+            border-radius: 50%; 
+            background: var(--accent-primary); 
+            cursor: pointer; 
+        }
 
         /* Progress Bars */
-        .progress-track { width: 100%; height: 10px; background: #273549; border-radius: 10px; overflow: hidden; margin: 10px 0; }
-        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-primary), var(--accent-success)); border-radius: 10px; transition: width 0.4s ease; }
+        .progress-track { 
+            width: 100%; 
+            height: 10px; 
+            background: #273549; 
+            border-radius: 10px; 
+            overflow: hidden; 
+            margin: 10px 0; 
+        }
+
+        .progress-fill { 
+            height: 100%; 
+            width: 0%; 
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-success)); 
+            border-radius: 10px; 
+            transition: width 0.4s ease; 
+        }
 
         /* Quick Buttons */
         .btn-group { display: flex; gap: 6px; margin-top: 10px; }
-        .btn { flex: 1; padding: 8px 4px; border: none; background: #273549; color: var(--text-main); border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .btn { 
+            flex: 1; 
+            padding: 8px 4px; 
+            border: none; 
+            background: #273549; 
+            color: var(--text-main); 
+            border-radius: 8px; 
+            font-size: 0.8rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: var(--transition); 
+        }
+
         .btn:active { transform: scale(0.96); }
         .btn-icon { flex: 0 0 36px; background: rgba(248,113,113,0.15); color: var(--accent-danger); }
 
-        /* Recommendation Banner */
-        .auto-banner { background: rgba(56, 189, 248, 0.08); border-left: 4px solid var(--accent-primary); padding: 12px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 16px; line-height: 1.4; }
+        /* Banner */
+        .auto-banner { 
+            background: rgba(56, 189, 248, 0.08); 
+            border-left: 4px solid var(--accent-primary); 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-size: 0.85rem; 
+            margin-bottom: 16px; 
+            line-height: 1.4; 
+        }
 
-        /* Biorhythm Rows */
+        /* Biorhythms */
         .bio-row { margin-bottom: 12px; }
         .bio-info { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px; }
         .bio-fill { height: 8px; border-radius: 4px; transition: width 0.5s ease; }
 
-        .input-control { width: 100%; padding: 10px; background: #090d16; border: 1px solid #273549; border-radius: 8px; color: var(--text-main); font-size: 0.9rem; margin-top: 4px; }
+        .input-control { 
+            width: 100%; 
+            padding: 10px; 
+            background: #090d16; 
+            border: 1px solid #273549; 
+            border-radius: 8px; 
+            color: var(--text-main); 
+            font-size: 0.9rem; 
+            margin-top: 4px; 
+        }
     </style>
 </head>
 <body>
 
     <nav class="app-nav">
-        <button class="nav-btn active" onclick="App.router('dashboard')">⚙️ Денні Цілі</button>
-        <button class="nav-btn" onclick="App.router('biometrics')">📊 Біометрика</button>
-        <button class="nav-btn" onclick="App.router('menu')">🍳 Меню</button>
+        <button class="nav-btn active" onclick="App.router('dashboard', this)">⚙️ Денні Цілі</button>
+        <button class="nav-btn" onclick="App.router('biometrics', this)">📊 Біометрика</button>
+        <button class="nav-btn" onclick="App.router('menu', this)">🍳 Меню</button>
     </nav>
 
     <!-- VIEW 1: DASHBOARD -->
@@ -126,7 +244,6 @@
          * LIFE-OS CORE ARCHITECTURE (State-Driven Pattern)
          */
         const App = (() => {
-            // 1. STATE (Єдине джерело правди)
             const DEFAULT_STATE = {
                 user: { dob: '2000-01-01', weight: 70, sleep: 8 },
                 lastActiveDate: new Date().toISOString().split('T')[0],
@@ -151,7 +268,6 @@
 
             let state = {};
 
-            // 2. INIT & STORAGE ENGINE
             function init() {
                 const saved = localStorage.getItem('life_os_state');
                 state = saved ? JSON.parse(saved) : DEFAULT_STATE;
@@ -167,17 +283,15 @@
                 render();
             }
 
-            // Перевірка зміна дня (Скидання о півночі)
             function checkMidnightReset() {
                 const today = new Date().toISOString().split('T')[0];
                 if (state.lastActiveDate !== today) {
-                    state.tasks.forEach(t => t.current = 0); // Скидаємо прогрес
+                    state.tasks.forEach(t => t.current = 0);
                     state.lastActiveDate = today;
                     save();
                 }
             }
 
-            // 3. BIORHYTHM ENGINE (CS Math)
             function calculateBiorhythms() {
                 if (!state.user.dob) return { phys: 50, intel: 50, emo: 50 };
 
@@ -192,30 +306,26 @@
                 };
             }
 
-            // 4. SMART ENGINE (Авто-адаптація навантаження під стан)
             function applySmartRecommendations() {
                 const bio = calculateBiorhythms();
                 const codeTask = state.tasks.find(t => t.id === 'code');
-                const sportTask = state.tasks.find(t => t.id === 'sport');
 
                 let bannerText = "";
 
-                // Якщо інтелект низький - не гвалтуємо мозок кодингом
                 if (bio.intel < 35) {
-                    codeTask.goal = 120; // 2 години замість 4
-                    bannerText = "⚠️ <strong>Інтелектуальний ресурс низький (<35%).</strong> Автоматика зменшила ціль з кодингу до 2 годин, щоб уникнути вигорання.";
+                    codeTask.goal = 120;
+                    bannerText = "⚠️ <strong>Інтелектуальний ресурс низький (<35%).</strong> Ціль з кодингу знижено до 2 годин, щоб запобігти вигоранню.";
                 } else if (bio.intel > 75) {
-                    codeTask.goal = 300; // 5 годин на піку!
-                    bannerText = "⚡ <strong>Інтелектуальний пік (>75%)!</strong> Оптимальний день для глибокого програмування (ціль: 5 год).";
+                    codeTask.goal = 300;
+                    bannerText = "⚡ <strong>Інтелектуальний пік (>75%)!</strong> Оптимальний день для складного кодингу (ціль: 5 год).";
                 } else {
                     codeTask.goal = codeTask.rec;
-                    bannerText = "🌱 <strong>Стабільний стан.</strong> Рекомендоване навантаження розподілено рівномірно.";
+                    bannerText = "🌱 <strong>Стабільний стан.</strong> Навантаження розподілено рівномірно.";
                 }
 
                 document.getElementById('ai-recommendation-banner').innerHTML = bannerText;
             }
 
-            // 5. MUTATIONS (Зміна стану)
             function addProgress(taskId, amount) {
                 const task = state.tasks.find(t => t.id === taskId);
                 if (task) {
@@ -251,9 +361,7 @@
                 save();
             }
 
-            // 6. RENDER ENGINE (Відображення)
             function render() {
-                // Render Tasks
                 const list = document.getElementById('tasks-list');
                 list.innerHTML = state.tasks.map(t => {
                     const percent = Math.min(100, Math.round((t.current / t.goal) * 100));
@@ -307,7 +415,6 @@
                     `;
                 }).join('');
 
-                // Render Biometrics UI
                 const bio = calculateBiorhythms();
                 document.getElementById('input-dob').value = state.user.dob || '';
                 document.getElementById('input-weight').value = state.user.weight || '';
@@ -317,7 +424,6 @@
                 updateBioBar('intel', bio.intel);
                 updateBioBar('emo', bio.emo);
 
-                // Render Menu UI
                 const day = new Date().getDay();
                 document.getElementById('menu-today-description').innerText = MENU_SCHEDULE[day];
             }
@@ -327,20 +433,27 @@
                 document.getElementById(`bio-${id}-bar`).style.width = `${val}%`;
             }
 
-            // Router
-            function router(viewId) {
+            function router(viewId, btn) {
                 document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
                 document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                 
                 document.getElementById(`view-${viewId}`).classList.add('active');
-                event.target.classList.add('active');
+                if(btn) btn.classList.add('active');
             }
 
             return { init, router, addProgress, updateGoal, resetTask, setDOB, updateBioMetric };
         })();
 
-        // Start App
-        document.addEventListener('DOMContentLoaded', App.init);
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init();
+
+            // PWA Service Worker Registration
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                    .then(() => console.log('Service Worker Registered'))
+                    .catch(err => console.error('Service Worker Failed:', err));
+            }
+        });
     </script>
 </body>
 </html>
