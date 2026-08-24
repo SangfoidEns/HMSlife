@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LifeOS v2.0 — Smart Life Automator</title>
+    <style>
+        :root {
+            --bg-body: #090d16;
+            --bg-card: #151c2c;
+            --bg-card-hover: #1e293b;
+            --accent-primary: #38bdf8;
+            --accent-success: #34d399;
+            --accent-warning: #fbbf24;
+            --accent-danger: #f87171;
+            --text-main: #f1f5f9;
+            --text-muted: #64748b;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-body); color: var(--text-main); padding: 16px; max-width: 480px; margin: 0 auto; padding-bottom: 40px; }
+
+        /* Navigation Tabs */
+        .app-nav { display: flex; background: var(--bg-card); padding: 4px; border-radius: var(--radius-md); margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .nav-btn { flex: 1; padding: 10px; border: none; background: transparent; color: var(--text-muted); font-weight: 600; font-size: 0.85rem; border-radius: 8px; cursor: pointer; transition: var(--transition); }
+        .nav-btn.active { background: var(--accent-primary); color: #090d16; }
+
+        .view { display: none; }
+        .view.active { display: block; }
+
+        /* General Card Styles */
+        .card { background: var(--bg-card); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.05); }
+        .card-title { font-size: 1rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+
+        /* Range Slider Styling */
+        .custom-slider { width: 100%; height: 6px; background: #273549; border-radius: 4px; outline: none; -webkit-appearance: none; margin: 10px 0; }
+        .custom-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--accent-primary); cursor: pointer; }
+
+        /* Progress Bars */
+        .progress-track { width: 100%; height: 10px; background: #273549; border-radius: 10px; overflow: hidden; margin: 10px 0; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-primary), var(--accent-success)); border-radius: 10px; transition: width 0.4s ease; }
+
+        /* Quick Buttons */
+        .btn-group { display: flex; gap: 6px; margin-top: 10px; }
+        .btn { flex: 1; padding: 8px 4px; border: none; background: #273549; color: var(--text-main); border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .btn:active { transform: scale(0.96); }
+        .btn-icon { flex: 0 0 36px; background: rgba(248,113,113,0.15); color: var(--accent-danger); }
+
+        /* Recommendation Banner */
+        .auto-banner { background: rgba(56, 189, 248, 0.08); border-left: 4px solid var(--accent-primary); padding: 12px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 16px; line-height: 1.4; }
+
+        /* Biorhythm Rows */
+        .bio-row { margin-bottom: 12px; }
+        .bio-info { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px; }
+        .bio-fill { height: 8px; border-radius: 4px; transition: width 0.5s ease; }
+
+        .input-control { width: 100%; padding: 10px; background: #090d16; border: 1px solid #273549; border-radius: 8px; color: var(--text-main); font-size: 0.9rem; margin-top: 4px; }
+    </style>
+</head>
+<body>
+
+    <nav class="app-nav">
+        <button class="nav-btn active" onclick="App.router('dashboard')">⚙️ Денні Цілі</button>
+        <button class="nav-btn" onclick="App.router('biometrics')">📊 Біометрика</button>
+        <button class="nav-btn" onclick="App.router('menu')">🍳 Меню</button>
+    </nav>
+
+    <!-- VIEW 1: DASHBOARD -->
+    <div id="view-dashboard" class="view active">
+        <div id="ai-recommendation-banner" class="auto-banner">
+            🤖 <strong>LifeOS Engine:</strong> Аналіз біоритмів і завантаження...
+        </div>
+        <div id="tasks-list"></div>
+    </div>
+
+    <!-- VIEW 2: BIOMETRICS -->
+    <div id="view-biometrics" class="view">
+        <div class="card">
+            <div class="card-title">🎂 Конфігурація Біоритмів</div>
+            <label style="font-size: 0.8rem; color: var(--text-muted)">Дата народження:</label>
+            <input type="date" id="input-dob" class="input-control" onchange="App.setDOB(this.value)">
+        </div>
+
+        <div class="card">
+            <div class="card-title">🧬 Поточний стан біоритмів</div>
+            
+            <div class="bio-row">
+                <div class="bio-info"><span>💪 Фізичний (23 дні)</span><span id="bio-phys-val">--%</span></div>
+                <div class="progress-track"><div id="bio-phys-bar" class="bio-fill" style="background:var(--accent-success)"></div></div>
+            </div>
+
+            <div class="bio-row">
+                <div class="bio-info"><span>🧠 Інтелектуальний (33 дні)</span><span id="bio-intel-val">--%</span></div>
+                <div class="progress-track"><div id="bio-intel-bar" class="bio-fill" style="background:var(--accent-primary)"></div></div>
+            </div>
+
+            <div class="bio-row">
+                <div class="bio-info"><span>❤️ Емоційний (28 днів)</span><span id="bio-emo-val">--%</span></div>
+                <div class="progress-track"><div id="bio-emo-bar" class="bio-fill" style="background:var(--accent-warning)"></div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">⚖️ Тіло та Сон</div>
+            <label style="font-size: 0.8rem; color: var(--text-muted)">Вага (кг):</label>
+            <input type="number" id="input-weight" class="input-control" placeholder="75.0" step="0.1" onchange="App.updateBioMetric('weight', this.value)">
+            
+            <label style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px; display:block">Сон (годин):</label>
+            <input type="number" id="input-sleep" class="input-control" placeholder="8.0" step="0.5" onchange="App.updateBioMetric('sleep', this.value)">
+        </div>
+    </div>
+
+    <!-- VIEW 3: MENU -->
+    <div id="view-menu" class="view">
+        <div class="card">
+            <div class="card-title">🍳 План харчування на сьогодні</div>
+            <p id="menu-today-description" style="font-size: 0.95rem; line-height: 1.5; color: var(--text-main);"></p>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * LIFE-OS CORE ARCHITECTURE (State-Driven Pattern)
+         */
+        const App = (() => {
+            // 1. STATE (Єдине джерело правди)
+            const DEFAULT_STATE = {
+                user: { dob: '2000-01-01', weight: 70, sleep: 8 },
+                lastActiveDate: new Date().toISOString().split('T')[0],
+                tasks: [
+                    { id: 'code', name: '💻 Програмування', goal: 240, rec: 240, current: 0, type: 'time', step: 30, max: 480 },
+                    { id: 'sport', name: '🏃 Спорт / Активність', goal: 120, rec: 120, current: 0, type: 'time', step: 15, max: 240 },
+                    { id: 'learn', name: '📚 Навчання', goal: 120, rec: 120, current: 0, type: 'time', step: 15, max: 240 },
+                    { id: 'cook', name: '🍳 Готування', goal: 60, rec: 60, current: 0, type: 'time', step: 15, max: 120 },
+                    { id: 'eat', name: '🥗 Прийоми їжі', goal: 3, rec: 3, current: 0, type: 'count', step: 1, max: 5 }
+                ]
+            };
+
+            const MENU_SCHEDULE = {
+                0: "🥞 Недільний релакс: Млинці + Каша з підливою / Доїдаємо залишки.",
+                1: "🍲 Базовий суп + Тушкована капуста (Готування ~45 хв, база на 3 дні).",
+                2: "🍳 Розігрів супу + Свіжа яєчня на сніданок (Готування ~5 хв).",
+                3: "🍚 Смачний плов + Салат з огірків та помідорів (Готування ~45 хв).",
+                4: "🐟 Смажена риба + Ніжне пюре (Швидке готування ~25 хв).",
+                5: "🥘 Ситне жаркое з м'ясом та картоплею (Готування ~50 хв).",
+                6: "🦀 Розігрів жаркое + Швидкий крабовий салат (Готування ~15 хв)."
+            };
+
+            let state = {};
+
+            // 2. INIT & STORAGE ENGINE
+            function init() {
+                const saved = localStorage.getItem('life_os_state');
+                state = saved ? JSON.parse(saved) : DEFAULT_STATE;
+
+                checkMidnightReset();
+                calculateBiorhythms();
+                applySmartRecommendations();
+                render();
+            }
+
+            function save() {
+                localStorage.setItem('life_os_state', JSON.stringify(state));
+                render();
+            }
+
+            // Перевірка зміна дня (Скидання о півночі)
+            function checkMidnightReset() {
+                const today = new Date().toISOString().split('T')[0];
+                if (state.lastActiveDate !== today) {
+                    state.tasks.forEach(t => t.current = 0); // Скидаємо прогрес
+                    state.lastActiveDate = today;
+                    save();
+                }
+            }
+
+            // 3. BIORHYTHM ENGINE (CS Math)
+            function calculateBiorhythms() {
+                if (!state.user.dob) return { phys: 50, intel: 50, emo: 50 };
+
+                const birth = new Date(state.user.dob);
+                const today = new Date();
+                const diffDays = Math.floor((today - birth) / (1000 * 60 * 60 * 24));
+
+                return {
+                    phys: Math.round((Math.sin((2 * Math.PI * diffDays) / 23) + 1) * 50),
+                    emo: Math.round((Math.sin((2 * Math.PI * diffDays) / 28) + 1) * 50),
+                    intel: Math.round((Math.sin((2 * Math.PI * diffDays) / 33) + 1) * 50)
+                };
+            }
+
+            // 4. SMART ENGINE (Авто-адаптація навантаження під стан)
+            function applySmartRecommendations() {
+                const bio = calculateBiorhythms();
+                const codeTask = state.tasks.find(t => t.id === 'code');
+                const sportTask = state.tasks.find(t => t.id === 'sport');
+
+                let bannerText = "";
+
+                // Якщо інтелект низький - не гвалтуємо мозок кодингом
+                if (bio.intel < 35) {
+                    codeTask.goal = 120; // 2 години замість 4
+                    bannerText = "⚠️ <strong>Інтелектуальний ресурс низький (<35%).</strong> Автоматика зменшила ціль з кодингу до 2 годин, щоб уникнути вигорання.";
+                } else if (bio.intel > 75) {
+                    codeTask.goal = 300; // 5 годин на піку!
+                    bannerText = "⚡ <strong>Інтелектуальний пік (>75%)!</strong> Оптимальний день для глибокого програмування (ціль: 5 год).";
+                } else {
+                    codeTask.goal = codeTask.rec;
+                    bannerText = "🌱 <strong>Стабільний стан.</strong> Рекомендоване навантаження розподілено рівномірно.";
+                }
+
+                document.getElementById('ai-recommendation-banner').innerHTML = bannerText;
+            }
+
+            // 5. MUTATIONS (Зміна стану)
+            function addProgress(taskId, amount) {
+                const task = state.tasks.find(t => t.id === taskId);
+                if (task) {
+                    task.current = Math.min(task.max * 2, task.current + amount);
+                    save();
+                }
+            }
+
+            function updateGoal(taskId, newGoal) {
+                const task = state.tasks.find(t => t.id === taskId);
+                if (task) {
+                    task.goal = Number(newGoal);
+                    save();
+                }
+            }
+
+            function resetTask(taskId) {
+                const task = state.tasks.find(t => t.id === taskId);
+                if (task) {
+                    task.current = 0;
+                    save();
+                }
+            }
+
+            function setDOB(dob) {
+                state.user.dob = dob;
+                applySmartRecommendations();
+                save();
+            }
+
+            function updateBioMetric(key, val) {
+                state.user[key] = Number(val);
+                save();
+            }
+
+            // 6. RENDER ENGINE (Відображення)
+            function render() {
+                // Render Tasks
+                const list = document.getElementById('tasks-list');
+                list.innerHTML = state.tasks.map(t => {
+                    const percent = Math.min(100, Math.round((t.current / t.goal) * 100));
+                    const isDone = t.current >= t.goal;
+                    const rem = Math.max(0, t.goal - t.current);
+
+                    const remText = t.type === 'count' 
+                        ? `${rem} прий.` 
+                        : `${Math.floor(rem/60)}г ${rem%60}хв`;
+
+                    const currentText = t.type === 'count'
+                        ? `${t.current} прий.`
+                        : `${Math.floor(t.current/60)}г ${t.current%60}хв`;
+
+                    const goalText = t.type === 'count' ? `${t.goal} прий.` : `${Math.floor(t.goal/60)}г ${t.goal%60}хв`;
+
+                    return `
+                        <div class="card">
+                            <div class="card-title">
+                                <span>${t.name}</span>
+                                <span style="font-size:0.8rem; color:${isDone ? 'var(--accent-success)' : 'var(--text-muted)'}">
+                                    ${isDone ? '✅ Виконано' : 'Залишилось: ' + remText}
+                                </span>
+                            </div>
+
+                            <div style="font-size:0.8rem; color:var(--text-muted); display:flex; justify-content:space-between">
+                                <span>Прогрес: <strong>${currentText}</strong> з ${goalText}</span>
+                                <span>${percent}%</span>
+                            </div>
+
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: ${percent}%"></div>
+                            </div>
+
+                            <label style="font-size:0.75rem; color:var(--text-muted)">Ручне коригування цілі на сьогодні:</label>
+                            <input type="range" class="custom-slider" 
+                                min="${t.step}" max="${t.max}" step="${t.step}" value="${t.goal}"
+                                onchange="App.updateGoal('${t.id}', this.value)">
+
+                            <div class="btn-group">
+                                ${t.type === 'count' 
+                                    ? `<button class="btn" onclick="App.addProgress('${t.id}', 1)">+1 Прийом</button>
+                                       <button class="btn" onclick="App.addProgress('${t.id}', 0.5)">+0.5 Перекус</button>`
+                                    : `<button class="btn" onclick="App.addProgress('${t.id}', 15)">+15 хв</button>
+                                       <button class="btn" onclick="App.addProgress('${t.id}', 30)">+30 хв</button>
+                                       <button class="btn" onclick="App.addProgress('${t.id}', 60)">+1 год</button>`
+                                }
+                                <button class="btn btn-icon" onclick="App.resetTask('${t.id}')">↺</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                // Render Biometrics UI
+                const bio = calculateBiorhythms();
+                document.getElementById('input-dob').value = state.user.dob || '';
+                document.getElementById('input-weight').value = state.user.weight || '';
+                document.getElementById('input-sleep').value = state.user.sleep || '';
+
+                updateBioBar('phys', bio.phys);
+                updateBioBar('intel', bio.intel);
+                updateBioBar('emo', bio.emo);
+
+                // Render Menu UI
+                const day = new Date().getDay();
+                document.getElementById('menu-today-description').innerText = MENU_SCHEDULE[day];
+            }
+
+            function updateBioBar(id, val) {
+                document.getElementById(`bio-${id}-val`).innerText = `${val}%`;
+                document.getElementById(`bio-${id}-bar`).style.width = `${val}%`;
+            }
+
+            // Router
+            function router(viewId) {
+                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                
+                document.getElementById(`view-${viewId}`).classList.add('active');
+                event.target.classList.add('active');
+            }
+
+            return { init, router, addProgress, updateGoal, resetTask, setDOB, updateBioMetric };
+        })();
+
+        // Start App
+        document.addEventListener('DOMContentLoaded', App.init);
+    </script>
+</body>
+</html>
