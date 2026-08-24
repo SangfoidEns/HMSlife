@@ -3,15 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LifeOS v2.0 — Smart Life Automator</title>
-    
-    <!-- PWA Settings -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#090d16">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3079/3079164.png">
-
+    <title>LifeOS — Daily Planner & Micro-Sprints</title>
     <style>
         :root {
             --bg-body: #090d16;
@@ -22,438 +14,229 @@
             --accent-danger: #f87171;
             --text-main: #f1f5f9;
             --text-muted: #64748b;
-            --radius-lg: 20px;
-            --radius-md: 12px;
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-lg: 16px;
+            --radius-md: 10px;
         }
 
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            -webkit-tap-highlight-color: transparent; 
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { background: var(--bg-body); color: var(--text-main); padding: 16px; max-width: 480px; margin: 0 auto; }
+
+        /* Quick Sprint Banner */
+        .sprint-card {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 2px solid var(--accent-primary);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15);
         }
 
-        body { 
-            background-color: var(--bg-body); 
-            color: var(--text-main); 
-            padding: 16px; 
-            max-width: 480px; 
-            margin: 0 auto; 
-            padding-bottom: 40px; 
+        .sprint-btn {
+            background: var(--accent-primary);
+            color: #090d16;
+            border: none;
+            padding: 14px 24px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            width: 100%;
+            margin-top: 12px;
+            transition: transform 0.1s ease;
+        }
+        .sprint-btn:active { transform: scale(0.98); }
+
+        /* Tasks List */
+        .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; color: var(--text-main); }
+        
+        .task-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        /* Navigation Tabs */
-        .app-nav { 
-            display: flex; 
-            background: var(--bg-card); 
-            padding: 4px; 
-            border-radius: var(--radius-md); 
-            margin-bottom: 20px; 
-            border: 1px solid rgba(255,255,255,0.05); 
+        .task-info { flex-grow: 1; }
+        .task-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
+        .task-meta { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* Progress Dots (1 dot = 15 min) */
+        .chunks-container { display: flex; gap: 4px; margin-top: 6px; }
+        .chunk-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            background: #273549;
+        }
+        .chunk-dot.filled { background: var(--accent-primary); }
+        .chunk-dot.done { background: var(--accent-success); }
+
+        .btn-add-chunk {
+            background: #273549;
+            border: none;
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 8px;
         }
 
-        .nav-btn { 
-            flex: 1; 
-            padding: 10px; 
-            border: none; 
-            background: transparent; 
-            color: var(--text-muted); 
-            font-weight: 600; 
-            font-size: 0.85rem; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            transition: var(--transition); 
+        /* Timer Modal Overlay */
+        .timer-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(9, 13, 22, 0.95);
+            display: none; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 1000; padding: 20px;
         }
-
-        .nav-btn.active { 
-            background: var(--accent-primary); 
-            color: #090d16; 
-        }
-
-        .view { display: none; }
-        .view.active { display: block; }
-
-        /* Card Styles */
-        .card { 
-            background: var(--bg-card); 
-            border-radius: var(--radius-lg); 
-            padding: 18px; 
-            margin-bottom: 16px; 
-            border: 1px solid rgba(255,255,255,0.05); 
-        }
-
-        .card-title { 
-            font-size: 1rem; 
-            font-weight: 700; 
-            color: var(--accent-primary); 
-            margin-bottom: 12px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-
-        /* Range Slider Styling */
-        .custom-slider { 
-            width: 100%; 
-            height: 6px; 
-            background: #273549; 
-            border-radius: 4px; 
-            outline: none; 
-            -webkit-appearance: none; 
-            margin: 10px 0; 
-        }
-
-        .custom-slider::-webkit-slider-thumb { 
-            -webkit-appearance: none; 
-            width: 18px; 
-            height: 18px; 
-            border-radius: 50%; 
-            background: var(--accent-primary); 
-            cursor: pointer; 
-        }
-
-        /* Progress Bars */
-        .progress-track { 
-            width: 100%; 
-            height: 10px; 
-            background: #273549; 
-            border-radius: 10px; 
-            overflow: hidden; 
-            margin: 10px 0; 
-        }
-
-        .progress-fill { 
-            height: 100%; 
-            width: 0%; 
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-success)); 
-            border-radius: 10px; 
-            transition: width 0.4s ease; 
-        }
-
-        /* Quick Buttons */
-        .btn-group { display: flex; gap: 6px; margin-top: 10px; }
-        .btn { 
-            flex: 1; 
-            padding: 8px 4px; 
-            border: none; 
-            background: #273549; 
-            color: var(--text-main); 
-            border-radius: 8px; 
-            font-size: 0.8rem; 
-            font-weight: 600; 
-            cursor: pointer; 
-            transition: var(--transition); 
-        }
-
-        .btn:active { transform: scale(0.96); }
-        .btn-icon { flex: 0 0 36px; background: rgba(248,113,113,0.15); color: var(--accent-danger); }
-
-        /* Banner */
-        .auto-banner { 
-            background: rgba(56, 189, 248, 0.08); 
-            border-left: 4px solid var(--accent-primary); 
-            padding: 12px; 
-            border-radius: 8px; 
-            font-size: 0.85rem; 
-            margin-bottom: 16px; 
-            line-height: 1.4; 
-        }
-
-        /* Biorhythms */
-        .bio-row { margin-bottom: 12px; }
-        .bio-info { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px; }
-        .bio-fill { height: 8px; border-radius: 4px; transition: width 0.5s ease; }
-
-        .input-control { 
-            width: 100%; 
-            padding: 10px; 
-            background: #090d16; 
-            border: 1px solid #273549; 
-            border-radius: 8px; 
-            color: var(--text-main); 
-            font-size: 0.9rem; 
-            margin-top: 4px; 
-        }
+        .timer-overlay.active { display: flex; }
+        .timer-display { font-size: 4rem; font-weight: 900; color: var(--accent-primary); margin: 20px 0; }
     </style>
 </head>
 <body>
 
-    <nav class="app-nav">
-        <button class="nav-btn active" onclick="App.router('dashboard', this)">⚙️ Денні Цілі</button>
-        <button class="nav-btn" onclick="App.router('biometrics', this)">📊 Біометрика</button>
-        <button class="nav-btn" onclick="App.router('menu', this)">🍳 Меню</button>
-    </nav>
-
-    <!-- VIEW 1: DASHBOARD -->
-    <div id="view-dashboard" class="view active">
-        <div id="ai-recommendation-banner" class="auto-banner">
-            🤖 <strong>LifeOS Engine:</strong> Аналіз біоритмів і завантаження...
-        </div>
-        <div id="tasks-list"></div>
+    <!-- 15-MINUTE SPRINT ENGINE -->
+    <div class="sprint-card">
+        <div style="font-size: 0.85rem; color: var(--accent-primary); font-weight: 700; text-transform: uppercase;">Є вільне вікно?</div>
+        <h2 style="margin-top:4px;">15-Хвилинний Спринт</h2>
+        <button class="sprint-btn" onclick="Planner.startAutoSprint()">⚡ Спланувати 15 хвилин</button>
     </div>
 
-    <!-- VIEW 2: BIOMETRICS -->
-    <div id="view-biometrics" class="view">
-        <div class="card">
-            <div class="card-title">🎂 Конфігурація Біоритмів</div>
-            <label style="font-size: 0.8rem; color: var(--text-muted)">Дата народження:</label>
-            <input type="date" id="input-dob" class="input-control" onchange="App.setDOB(this.value)">
-        </div>
+    <!-- DAILY PLAN -->
+    <div class="section-title">📌 План на сьогодні</div>
+    <div id="tasks-list"></div>
 
-        <div class="card">
-            <div class="card-title">🧬 Поточний стан біоритмів</div>
-            
-            <div class="bio-row">
-                <div class="bio-info"><span>💪 Фізичний (23 дні)</span><span id="bio-phys-val">--%</span></div>
-                <div class="progress-track"><div id="bio-phys-bar" class="bio-fill" style="background:var(--accent-success)"></div></div>
-            </div>
-
-            <div class="bio-row">
-                <div class="bio-info"><span>🧠 Інтелектуальний (33 дні)</span><span id="bio-intel-val">--%</span></div>
-                <div class="progress-track"><div id="bio-intel-bar" class="bio-fill" style="background:var(--accent-primary)"></div></div>
-            </div>
-
-            <div class="bio-row">
-                <div class="bio-info"><span>❤️ Емоційний (28 днів)</span><span id="bio-emo-val">--%</span></div>
-                <div class="progress-track"><div id="bio-emo-bar" class="bio-fill" style="background:var(--accent-warning)"></div></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">⚖️ Тіло та Сон</div>
-            <label style="font-size: 0.8rem; color: var(--text-muted)">Вага (кг):</label>
-            <input type="number" id="input-weight" class="input-control" placeholder="75.0" step="0.1" onchange="App.updateBioMetric('weight', this.value)">
-            
-            <label style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px; display:block">Сон (годин):</label>
-            <input type="number" id="input-sleep" class="input-control" placeholder="8.0" step="0.5" onchange="App.updateBioMetric('sleep', this.value)">
-        </div>
-    </div>
-
-    <!-- VIEW 3: MENU -->
-    <div id="view-menu" class="view">
-        <div class="card">
-            <div class="card-title">🍳 План харчування на сьогодні</div>
-            <p id="menu-today-description" style="font-size: 0.95rem; line-height: 1.5; color: var(--text-main);"></p>
-        </div>
+    <!-- TIMER OVERLAY -->
+    <div id="timer-modal" class="timer-overlay">
+        <div style="font-size: 1.1rem; color: var(--text-muted);">Зараз робимо:</div>
+        <h1 id="timer-task-name" style="color: var(--text-main); text-align: center; margin-top: 8px;">--</h1>
+        <div id="timer-countdown" class="timer-display">15:00</div>
+        <button class="sprint-btn" style="background: var(--accent-success);" onclick="Planner.completeSprint()">✅ Завершити раніше (+15 хв)</button>
+        <button class="sprint-btn" style="background: transparent; color: var(--accent-danger); margin-top: 8px;" onclick="Planner.cancelSprint()">Скасувати</button>
     </div>
 
     <script>
-        /**
-         * LIFE-OS CORE ARCHITECTURE (State-Driven Pattern)
-         */
-        const App = (() => {
-            const DEFAULT_STATE = {
-                user: { dob: '2000-01-01', weight: 70, sleep: 8 },
-                lastActiveDate: new Date().toISOString().split('T')[0],
-                tasks: [
-                    { id: 'code', name: '💻 Програмування', goal: 240, rec: 240, current: 0, type: 'time', step: 30, max: 480 },
-                    { id: 'sport', name: '🏃 Спорт / Активність', goal: 120, rec: 120, current: 0, type: 'time', step: 15, max: 240 },
-                    { id: 'learn', name: '📚 Навчання', goal: 120, rec: 120, current: 0, type: 'time', step: 15, max: 240 },
-                    { id: 'cook', name: '🍳 Готування', goal: 60, rec: 60, current: 0, type: 'time', step: 15, max: 120 },
-                    { id: 'eat', name: '🥗 Прийоми їжі', goal: 3, rec: 3, current: 0, type: 'count', step: 1, max: 5 }
-                ]
+        const Planner = (() => {
+            // Data Structure: 1 Chunk = 15 Minutes
+            const DEFAULT_TASKS = [
+                { id: 'code', name: '💻 Робота / Кодинг', totalChunks: 8, doneChunks: 0, category: 'work' },
+                { id: 'clean', name: '🧹 Прибирання (швидке)', totalChunks: 2, doneChunks: 0, category: 'house' },
+                { id: 'shop', name: '🛒 Похід в магазин', totalChunks: 2, doneChunks: 0, category: 'house' },
+                { id: 'cook', name: '🍳 Готування їжі', totalChunks: 3, doneChunks: 0, category: 'house' },
+                { id: 'read', name: '📚 Читання / Навчання', totalChunks: 2, doneChunks: 0, category: 'self' }
+            ];
+
+            let state = {
+                tasks: [],
+                activeSprint: null
             };
 
-            const MENU_SCHEDULE = {
-                0: "🥞 Недільний релакс: Млинці + Каша з підливою / Доїдаємо залишки.",
-                1: "🍲 Базовий суп + Тушкована капуста (Готування ~45 хв, база на 3 дні).",
-                2: "🍳 Розігрів супу + Свіжа яєчня на сніданок (Готування ~5 хв).",
-                3: "🍚 Смачний плов + Салат з огірків та помідорів (Готування ~45 хв).",
-                4: "🐟 Смажена риба + Ніжне пюре (Швидке готування ~25 хв).",
-                5: "🥘 Ситне жаркое з м'ясом та картоплею (Готування ~50 хв).",
-                6: "🦀 Розігрів жаркое + Швидкий крабовий салат (Готування ~15 хв)."
-            };
-
-            let state = {};
+            let timerInterval = null;
+            let timeLeftSeconds = 15 * 60;
 
             function init() {
-                const saved = localStorage.getItem('life_os_state');
-                state = saved ? JSON.parse(saved) : DEFAULT_STATE;
-
-                checkMidnightReset();
-                calculateBiorhythms();
-                applySmartRecommendations();
+                const saved = localStorage.getItem('lifeos_planner_state');
+                state.tasks = saved ? JSON.parse(saved) : DEFAULT_TASKS;
                 render();
             }
 
             function save() {
-                localStorage.setItem('life_os_state', JSON.stringify(state));
+                localStorage.setItem('lifeos_planner_state', JSON.stringify(state.tasks));
                 render();
             }
 
-            function checkMidnightReset() {
-                const today = new Date().toISOString().split('T')[0];
-                if (state.lastActiveDate !== today) {
-                    state.tasks.forEach(t => t.current = 0);
-                    state.lastActiveDate = today;
-                    save();
-                }
-            }
-
-            function calculateBiorhythms() {
-                if (!state.user.dob) return { phys: 50, intel: 50, emo: 50 };
-
-                const birth = new Date(state.user.dob);
-                const today = new Date();
-                const diffDays = Math.floor((today - birth) / (1000 * 60 * 60 * 24));
-
-                return {
-                    phys: Math.round((Math.sin((2 * Math.PI * diffDays) / 23) + 1) * 50),
-                    emo: Math.round((Math.sin((2 * Math.PI * diffDays) / 28) + 1) * 50),
-                    intel: Math.round((Math.sin((2 * Math.PI * diffDays) / 33) + 1) * 50)
-                };
-            }
-
-            function applySmartRecommendations() {
-                const bio = calculateBiorhythms();
-                const codeTask = state.tasks.find(t => t.id === 'code');
-
-                let bannerText = "";
-
-                if (bio.intel < 35) {
-                    codeTask.goal = 120;
-                    bannerText = "⚠️ <strong>Інтелектуальний ресурс низький (<35%).</strong> Ціль з кодингу знижено до 2 годин, щоб запобігти вигоранню.";
-                } else if (bio.intel > 75) {
-                    codeTask.goal = 300;
-                    bannerText = "⚡ <strong>Інтелектуальний пік (>75%)!</strong> Оптимальний день для складного кодингу (ціль: 5 год).";
-                } else {
-                    codeTask.goal = codeTask.rec;
-                    bannerText = "🌱 <strong>Стабільний стан.</strong> Навантаження розподілено рівномірно.";
-                }
-
-                document.getElementById('ai-recommendation-banner').innerHTML = bannerText;
-            }
-
-            function addProgress(taskId, amount) {
-                const task = state.tasks.find(t => t.id === taskId);
-                if (task) {
-                    task.current = Math.min(task.max * 2, task.current + amount);
-                    save();
-                }
-            }
-
-            function updateGoal(taskId, newGoal) {
-                const task = state.tasks.find(t => t.id === taskId);
-                if (task) {
-                    task.goal = Number(newGoal);
-                    save();
-                }
-            }
-
-            function resetTask(taskId) {
-                const task = state.tasks.find(t => t.id === taskId);
-                if (task) {
-                    task.current = 0;
-                    save();
-                }
-            }
-
-            function setDOB(dob) {
-                state.user.dob = dob;
-                applySmartRecommendations();
-                save();
-            }
-
-            function updateBioMetric(key, val) {
-                state.user[key] = Number(val);
-                save();
-            }
-
             function render() {
-                const list = document.getElementById('tasks-list');
-                list.innerHTML = state.tasks.map(t => {
-                    const percent = Math.min(100, Math.round((t.current / t.goal) * 100));
-                    const isDone = t.current >= t.goal;
-                    const rem = Math.max(0, t.goal - t.current);
-
-                    const remText = t.type === 'count' 
-                        ? `${rem} прий.` 
-                        : `${Math.floor(rem/60)}г ${rem%60}хв`;
-
-                    const currentText = t.type === 'count'
-                        ? `${t.current} прий.`
-                        : `${Math.floor(t.current/60)}г ${t.current%60}хв`;
-
-                    const goalText = t.type === 'count' ? `${t.goal} прий.` : `${Math.floor(t.goal/60)}г ${t.goal%60}хв`;
+                const container = document.getElementById('tasks-list');
+                container.innerHTML = state.tasks.map(task => {
+                    const isCompleted = task.doneChunks >= task.totalChunks;
+                    
+                    // Generate visual 15-min dots
+                    let dotsHTML = '';
+                    for (let i = 0; i < task.totalChunks; i++) {
+                        const isDone = i < task.doneChunks;
+                        dotsHTML += `<div class="chunk-dot ${isDone ? 'done' : ''}"></div>`;
+                    }
 
                     return `
-                        <div class="card">
-                            <div class="card-title">
-                                <span>${t.name}</span>
-                                <span style="font-size:0.8rem; color:${isDone ? 'var(--accent-success)' : 'var(--text-muted)'}">
-                                    ${isDone ? '✅ Виконано' : 'Залишилось: ' + remText}
-                                </span>
+                        <div class="task-card" style="opacity: ${isCompleted ? 0.5 : 1}">
+                            <div class="task-info">
+                                <div class="task-name">${isCompleted ? '✅ ' : ''}${task.name}</div>
+                                <div class="task-meta">${task.doneChunks * 15} / ${task.totalChunks * 15} хв накопичено</div>
+                                <div class="chunks-container">${dotsHTML}</div>
                             </div>
-
-                            <div style="font-size:0.8rem; color:var(--text-muted); display:flex; justify-content:space-between">
-                                <span>Прогрес: <strong>${currentText}</strong> з ${goalText}</span>
-                                <span>${percent}%</span>
-                            </div>
-
-                            <div class="progress-track">
-                                <div class="progress-fill" style="width: ${percent}%"></div>
-                            </div>
-
-                            <label style="font-size:0.75rem; color:var(--text-muted)">Ручне коригування цілі на сьогодні:</label>
-                            <input type="range" class="custom-slider" 
-                                min="${t.step}" max="${t.max}" step="${t.step}" value="${t.goal}"
-                                onchange="App.updateGoal('${t.id}', this.value)">
-
-                            <div class="btn-group">
-                                ${t.type === 'count' 
-                                    ? `<button class="btn" onclick="App.addProgress('${t.id}', 1)">+1 Прийом</button>
-                                       <button class="btn" onclick="App.addProgress('${t.id}', 0.5)">+0.5 Перекус</button>`
-                                    : `<button class="btn" onclick="App.addProgress('${t.id}', 15)">+15 хв</button>
-                                       <button class="btn" onclick="App.addProgress('${t.id}', 30)">+30 хв</button>
-                                       <button class="btn" onclick="App.addProgress('${t.id}', 60)">+1 год</button>`
-                                }
-                                <button class="btn btn-icon" onclick="App.resetTask('${t.id}')">↺</button>
-                            </div>
+                            <button class="btn-add-chunk" onclick="Planner.addChunk('${task.id}')">+15 хв</button>
                         </div>
                     `;
                 }).join('');
-
-                const bio = calculateBiorhythms();
-                document.getElementById('input-dob').value = state.user.dob || '';
-                document.getElementById('input-weight').value = state.user.weight || '';
-                document.getElementById('input-sleep').value = state.user.sleep || '';
-
-                updateBioBar('phys', bio.phys);
-                updateBioBar('intel', bio.intel);
-                updateBioBar('emo', bio.emo);
-
-                const day = new Date().getDay();
-                document.getElementById('menu-today-description').innerText = MENU_SCHEDULE[day];
             }
 
-            function updateBioBar(id, val) {
-                document.getElementById(`bio-${id}-val`).innerText = `${val}%`;
-                document.getElementById(`bio-${id}-bar`).style.width = `${val}%`;
+            function addChunk(taskId) {
+                const task = state.tasks.find(t => t.id === taskId);
+                if (task) {
+                    task.doneChunks++;
+                    save();
+                }
             }
 
-            function router(viewId, btn) {
-                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            // Algorithmic selection: Знаходить невиконану задачу з найбільшим пріоритетом
+            function startAutoSprint() {
+                const pendingTask = state.tasks.find(t => t.doneChunks < t.totalChunks);
+                if (!pendingTask) {
+                    alert('🎉 Усі плани на сьогодні виконано! Відпочивай.');
+                    return;
+                }
+                runTimerForTask(pendingTask);
+            }
+
+            function runTimerForTask(task) {
+                state.activeSprint = task;
+                document.getElementById('timer-task-name').innerText = task.name;
+                document.getElementById('timer-modal').classList.add('active');
                 
-                document.getElementById(`view-${viewId}`).classList.add('active');
-                if(btn) btn.classList.add('active');
+                timeLeftSeconds = 15 * 60;
+                updateTimerDisplay();
+
+                timerInterval = setInterval(() => {
+                    timeLeftSeconds--;
+                    updateTimerDisplay();
+                    if (timeLeftSeconds <= 0) {
+                        completeSprint();
+                    }
+                }, 1000);
             }
 
-            return { init, router, addProgress, updateGoal, resetTask, setDOB, updateBioMetric };
+            function updateTimerDisplay() {
+                const min = Math.floor(timeLeftSeconds / 60).toString().padStart(2, '0');
+                const sec = (timeLeftSeconds % 60).toString().padStart(2, '0');
+                document.getElementById('timer-countdown').innerText = `${min}:${sec}`;
+            }
+
+            function completeSprint() {
+                clearInterval(timerInterval);
+                if (state.activeSprint) {
+                    addChunk(state.activeSprint.id);
+                    state.activeSprint = null;
+                }
+                document.getElementById('timer-modal').classList.remove('active');
+            }
+
+            function cancelSprint() {
+                clearInterval(timerInterval);
+                state.activeSprint = null;
+                document.getElementById('timer-modal').classList.remove('active');
+            }
+
+            return { init, addChunk, startAutoSprint, completeSprint, cancelSprint };
         })();
 
-        document.addEventListener('DOMContentLoaded', () => {
-            App.init();
-
-            // PWA Service Worker Registration
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js')
-                    .then(() => console.log('Service Worker Registered'))
-                    .catch(err => console.error('Service Worker Failed:', err));
-            }
-        });
+        document.addEventListener('DOMContentLoaded', Planner.init);
     </script>
 </body>
 </html>
