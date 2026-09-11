@@ -27,22 +27,13 @@
   --radius-sm: 12px;
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
 html, body {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  background: var(--bg-obsidian);
-  color: var(--raw-titanium);
-  font-family: var(--font);
-  font-size: 15px;
-  line-height: 1.45;
-  -webkit-font-smoothing: antialiased;
-  user-select: none;
+  height: 100%; width: 100%; overflow: hidden;
+  background: var(--bg-obsidian); color: var(--raw-titanium);
+  font-family: var(--font); font-size: 15px; line-height: 1.45;
+  -webkit-font-smoothing: antialiased; user-select: none;
 }
-
 body {
   background-image:
     radial-gradient(ellipse 120% 80% at 50% -20%, rgba(0, 229, 255, 0.07), transparent 50%),
@@ -50,1343 +41,338 @@ body {
     linear-gradient(180deg, #06090e 0%, #0a1018 100%);
   background-attachment: fixed;
 }
-
 body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
+  content: ""; position: fixed; inset: 0;
   background-image:
     linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
-  background-size: 28px 28px;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.6;
+  background-size: 28px 28px; pointer-events: none; z-index: 0; opacity: 0.6;
 }
+#app { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; max-width: 480px; margin: 0 auto; }
 
-#app {
-  position: relative;
-  z-index: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-/* ─── TOP CONSOLE ─── */
 .top-console {
-  flex-shrink: 0;
-  padding: 12px 16px 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-shrink: 0; padding: 12px 16px 8px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
   background: linear-gradient(180deg, rgba(6, 9, 14, 0.95) 0%, rgba(6, 9, 14, 0.7) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--glass-border);
-  z-index: 50;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); z-index: 50;
 }
-
-.brand {
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  background: linear-gradient(90deg, var(--theme-accent), var(--bio-emerald));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.energy-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  justify-content: center;
-}
-
-.energy-label {
-  font-size: 11px;
-  opacity: 0.6;
-  letter-spacing: 0.04em;
-}
-
-.energy-bar {
-  width: 88px;
-  height: 10px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
-}
-
-.energy-fill {
-  height: 100%;
-  width: 78%;
-  border-radius: 6px;
-  background: linear-gradient(90deg, var(--bio-emerald), var(--theme-accent));
-  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s;
-  box-shadow: 0 0 12px rgba(0, 255, 170, 0.35);
-}
-
-.energy-fill.low {
-  background: linear-gradient(90deg, var(--alert-crimson), var(--synthetic-amber));
-  box-shadow: 0 0 12px rgba(255, 0, 85, 0.4);
-}
-
-.energy-pct {
-  font-size: 12px;
-  font-weight: 600;
-  min-width: 32px;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
+.brand { font-size: 15px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  background: linear-gradient(90deg, var(--theme-accent), var(--bio-emerald)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.energy-wrap { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: center; }
+.energy-label { font-size: 11px; opacity: 0.6; letter-spacing: 0.04em; }
+.energy-bar { width: 88px; height: 10px; background: rgba(255,255,255,0.08); border-radius: 6px; overflow: hidden; position: relative; box-shadow: inset 0 1px 2px rgba(0,0,0,0.4); }
+.energy-fill { height: 100%; width: 78%; border-radius: 6px; background: linear-gradient(90deg, var(--bio-emerald), var(--theme-accent)); transition: width 0.6s cubic-bezier(0.22,1,0.36,1), background 0.4s; box-shadow: 0 0 12px rgba(0,255,170,0.35); }
+.energy-fill.low { background: linear-gradient(90deg, var(--alert-crimson), var(--synthetic-amber)); box-shadow: 0 0 12px rgba(255,0,85,0.4); }
+.energy-pct { font-size: 12px; font-weight: 600; min-width: 32px; text-align: right; font-variant-numeric: tabular-nums; }
 .binaural-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border-radius: 20px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  color: var(--raw-titanium);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  cursor: pointer;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: inset 0 1px 1px var(--glass-highlight);
-  transition: all 0.25s ease;
-  min-height: 36px;
+  display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 20px; background: var(--glass-bg);
+  border: 1px solid var(--glass-border); color: var(--raw-titanium); font-size: 11px; font-weight: 600; letter-spacing: 0.03em;
+  cursor: pointer; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: inset 0 1px 1px var(--glass-highlight);
+  transition: all 0.25s ease; min-height: 36px;
 }
+.binaural-btn.active { border-color: rgba(0,229,255,0.45); color: var(--theme-accent); box-shadow: inset 0 1px 1px var(--glass-highlight), 0 0 16px rgba(0,229,255,0.2); }
+.binaural-dot { width: 7px; height: 7px; border-radius: 50%; background: #555; transition: background 0.25s; }
+.binaural-btn.active .binaural-dot { background: var(--theme-accent); box-shadow: 0 0 8px var(--theme-accent); animation: pulse-dot 1.6s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.55;transform:scale(0.85)} }
 
-.binaural-btn.active {
-  border-color: rgba(0, 229, 255, 0.45);
-  color: var(--theme-accent);
-  box-shadow: inset 0 1px 1px var(--glass-highlight), 0 0 16px rgba(0, 229, 255, 0.2);
-}
-
-.binaural-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #555;
-  transition: background 0.25s;
-}
-
-.binaural-btn.active .binaural-dot {
-  background: var(--theme-accent);
-  box-shadow: 0 0 8px var(--theme-accent);
-  animation: pulse-dot 1.6s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.55; transform: scale(0.85); }
-}
-
-/* ─── MAIN CONTENT ─── */
-.main-area {
-  flex: 1;
-  overflow: hidden;
-  position: relative;
-}
-
+.main-area { flex: 1; overflow: hidden; position: relative; }
 .screen {
-  position: absolute;
-  inset: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden;
   padding: 12px 16px calc(var(--nav-height) + var(--mini-height) + var(--safe-bottom) + 24px);
-  -webkit-overflow-scrolling: touch;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(8px);
+  -webkit-overflow-scrolling: touch; opacity: 0; pointer-events: none; transform: translateY(8px);
   transition: opacity 0.28s ease, transform 0.28s ease;
 }
+.screen.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-.screen.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-/* ─── GLASS CARD ─── */
 .glass {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  box-shadow: inset 0 1px 1px var(--glass-highlight), 0 8px 32px rgba(0, 0, 0, 0.35);
+  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg);
+  backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+  box-shadow: inset 0 1px 1px var(--glass-highlight), 0 8px 32px rgba(0,0,0,0.35);
 }
 
-/* ─── STREAM TAB ─── */
-.section-title {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.55;
-  margin: 18px 0 10px;
-}
+.section-title { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.55; margin: 18px 0 10px; }
 
-.playlist-carousel {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  padding-bottom: 8px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+/* Daily Biohack Card */
+.biohack-card {
+  padding: 16px; border-radius: var(--radius-lg); margin-bottom: 14px;
+  background: linear-gradient(145deg, rgba(0,229,255,0.1), rgba(0,255,170,0.05));
+  border: 1px solid rgba(0,229,255,0.22); position: relative; overflow: hidden;
 }
+.biohack-card::before {
+  content: ""; position: absolute; top: -30%; right: -20%; width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(0,229,255,0.15), transparent 70%); pointer-events: none;
+}
+.bh-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--theme-accent); margin-bottom: 6px; }
+.bh-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
+.bh-body { font-size: 13px; opacity: 0.85; line-height: 1.5; margin-bottom: 10px; }
+.bh-science { font-size: 12px; opacity: 0.65; line-height: 1.45; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; }
+.bh-actions { display: flex; gap: 8px; margin-top: 12px; }
+.bh-btn {
+  flex: 1; padding: 10px; border-radius: 12px; border: none; font-size: 13px; font-weight: 600;
+  cursor: pointer; min-height: 42px; transition: background 0.2s;
+}
+.bh-btn.primary { background: rgba(0,229,255,0.18); color: var(--theme-accent); }
+.bh-btn.primary:active { background: rgba(0,229,255,0.3); }
+.bh-btn.secondary { background: rgba(255,255,255,0.06); color: var(--raw-titanium); }
 
+.playlist-carousel { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
 .playlist-carousel::-webkit-scrollbar { display: none; }
-
 .playlist-card {
-  flex: 0 0 148px;
-  scroll-snap-align: start;
-  padding: 16px;
-  border-radius: var(--radius-md);
-  background: linear-gradient(145deg, rgba(0, 229, 255, 0.08), rgba(0, 255, 170, 0.04));
-  border: 1px solid rgba(0, 229, 255, 0.15);
-  cursor: pointer;
-  transition: transform 0.2s, border-color 0.2s;
-  min-height: 110px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex: 0 0 148px; scroll-snap-align: start; padding: 16px; border-radius: var(--radius-md);
+  background: linear-gradient(145deg, rgba(0,229,255,0.08), rgba(0,255,170,0.04));
+  border: 1px solid rgba(0,229,255,0.15); cursor: pointer; transition: transform 0.2s, border-color 0.2s;
+  min-height: 110px; display: flex; flex-direction: column; justify-content: space-between;
 }
-
 .playlist-card:active { transform: scale(0.96); }
-.playlist-card.active {
-  border-color: var(--theme-accent);
-  box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
-}
-
-.playlist-card .pc-glyph {
-  font-size: 28px;
-  margin-bottom: 8px;
-}
-
-.playlist-card .pc-name {
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-.playlist-card .pc-meta {
-  font-size: 11px;
-  opacity: 0.55;
-  margin-top: 4px;
-}
-
+.playlist-card.active { border-color: var(--theme-accent); box-shadow: 0 0 20px rgba(0,229,255,0.2); }
+.playlist-card .pc-glyph { font-size: 28px; margin-bottom: 8px; }
+.playlist-card .pc-name { font-size: 14px; font-weight: 600; line-height: 1.3; }
+.playlist-card .pc-meta { font-size: 11px; opacity: 0.55; margin-top: 4px; }
 .btn-new-pl {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 14px;
-  margin-top: 12px;
-  border-radius: var(--radius-md);
-  background: rgba(0, 229, 255, 0.08);
-  border: 1px dashed rgba(0, 229, 255, 0.35);
-  color: var(--theme-accent);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-  min-height: 48px;
+  display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; margin-top: 12px;
+  border-radius: var(--radius-md); background: rgba(0,229,255,0.08); border: 1px dashed rgba(0,229,255,0.35);
+  color: var(--theme-accent); font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; min-height: 48px;
 }
-
-.btn-new-pl:active { background: rgba(0, 229, 255, 0.15); }
-
-.queue-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
+.btn-new-pl:active { background: rgba(0,229,255,0.15); }
+.queue-list { display: flex; flex-direction: column; gap: 8px; }
 .queue-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid transparent;
-  transition: background 0.2s;
-  min-height: 64px;
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.03); border: 1px solid transparent; transition: background 0.2s; min-height: 64px;
 }
-
-.queue-item:active { background: rgba(255, 255, 255, 0.06); }
-.queue-item.playing {
-  border-color: rgba(0, 229, 255, 0.3);
-  background: rgba(0, 229, 255, 0.06);
-}
-
-.qi-glyph {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: rgba(0, 229, 255, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
+.queue-item:active { background: rgba(255,255,255,0.06); }
+.queue-item.playing { border-color: rgba(0,229,255,0.3); background: rgba(0,229,255,0.06); }
+.qi-glyph { width: 40px; height: 40px; border-radius: 12px; background: rgba(0,229,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
 .qi-info { flex: 1; min-width: 0; }
-.qi-name {
-  font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.qi-meta {
-  font-size: 11px;
-  opacity: 0.5;
-  margin-top: 2px;
-}
-
-.qi-actions {
-  display: flex;
-  gap: 4px;
-  flex-shrink: 0;
-}
-
+.qi-name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qi-meta { font-size: 11px; opacity: 0.5; margin-top: 2px; }
+.qi-actions { display: flex; gap: 4px; flex-shrink: 0; }
 .qi-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  border: none;
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--raw-titanium);
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
+  width: 36px; height: 36px; border-radius: 10px; border: none; background: rgba(255,255,255,0.06);
+  color: var(--raw-titanium); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;
 }
-
-.qi-btn:active { background: rgba(255, 255, 255, 0.12); }
+.qi-btn:active { background: rgba(255,255,255,0.12); }
 .qi-btn.remove { color: var(--alert-crimson); }
+.empty-queue { text-align: center; padding: 32px 16px; opacity: 0.45; font-size: 14px; }
 
-.empty-queue {
-  text-align: center;
-  padding: 32px 16px;
-  opacity: 0.45;
-  font-size: 14px;
-}
-
-/* ─── CATALOG TAB ─── */
 .search-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--glass-border);
-  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); margin-bottom: 14px;
 }
-
-.search-bar input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--raw-titanium);
-  font-size: 15px;
-  font-family: inherit;
-}
-
-.search-bar input::placeholder { color: rgba(214, 226, 237, 0.35); }
-
-.filter-chips {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 12px;
-  margin-bottom: 8px;
-}
-
+.search-bar input { flex: 1; background: transparent; border: none; outline: none; color: var(--raw-titanium); font-size: 15px; font-family: inherit; }
+.search-bar input::placeholder { color: rgba(214,226,237,0.35); }
+.filter-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 8px; }
 .filter-chips::-webkit-scrollbar { display: none; }
-
 .chip {
-  flex-shrink: 0;
-  padding: 8px 14px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
-  color: var(--raw-titanium);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  min-height: 36px;
+  flex-shrink: 0; padding: 8px 14px; border-radius: 20px; background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border); color: var(--raw-titanium); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; min-height: 36px;
 }
-
-.chip.active {
-  background: rgba(0, 229, 255, 0.15);
-  border-color: rgba(0, 229, 255, 0.4);
-  color: var(--theme-accent);
-}
-
-.catalog-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
+.chip.active { background: rgba(0,229,255,0.15); border-color: rgba(0,229,255,0.4); color: var(--theme-accent); }
+.catalog-grid { display: flex; flex-direction: column; gap: 10px; }
 .task-card {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px;
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-  min-height: 72px;
+  display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.03); border: 1px solid transparent; cursor: pointer; transition: background 0.2s, border-color 0.2s; min-height: 72px;
 }
-
-.task-card:active { background: rgba(255, 255, 255, 0.07); }
-.task-card.selected {
-  border-color: rgba(0, 229, 255, 0.35);
-  background: rgba(0, 229, 255, 0.06);
-}
-
-.tc-glyph {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: linear-gradient(145deg, rgba(0, 229, 255, 0.12), rgba(0, 255, 170, 0.06));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  flex-shrink: 0;
-}
-
+.task-card:active { background: rgba(255,255,255,0.07); }
+.task-card.selected { border-color: rgba(0,229,255,0.35); background: rgba(0,229,255,0.06); }
+.tc-glyph { width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(145deg, rgba(0,229,255,0.12), rgba(0,255,170,0.06)); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
 .tc-info { flex: 1; min-width: 0; }
-.tc-name {
-  font-size: 15px;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.tc-meta {
-  font-size: 12px;
-  opacity: 0.5;
-  margin-top: 3px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
+.tc-name { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tc-meta { font-size: 12px; opacity: 0.5; margin-top: 3px; display: flex; gap: 10px; flex-wrap: wrap; }
+.tc-strain { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 8px; background: rgba(255,145,0,0.12); color: var(--synthetic-amber); }
+.tc-bio { background: rgba(0,255,170,0.12); color: var(--bio-emerald); }
+.tc-actions { display: flex; flex-direction: column; gap: 4px; }
+.tc-btn { width: 40px; height: 36px; border-radius: 10px; border: none; background: rgba(0,229,255,0.1); color: var(--theme-accent); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.tc-btn:active { background: rgba(0,229,255,0.22); }
 
-.tc-strain {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 8px;
-  background: rgba(255, 145, 0, 0.12);
-  color: var(--synthetic-amber);
-}
-
-.tc-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.tc-btn {
-  width: 40px;
-  height: 36px;
-  border-radius: 10px;
-  border: none;
-  background: rgba(0, 229, 255, 0.1);
-  color: var(--theme-accent);
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tc-btn:active { background: rgba(0, 229, 255, 0.22); }
-
-/* ─── SAFE / JOURNAL TAB ─── */
-.journal-day {
-  margin-bottom: 20px;
-}
-
-.journal-date {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  opacity: 0.45;
-  margin-bottom: 10px;
-}
-
-.journal-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.03);
-  margin-bottom: 8px;
-}
-
-.ji-glyph {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: rgba(0, 255, 170, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-}
-
+.journal-day { margin-bottom: 20px; }
+.journal-date { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.45; margin-bottom: 10px; }
+.journal-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--radius-md); background: rgba(255,255,255,0.03); margin-bottom: 8px; }
+.ji-glyph { width: 36px; height: 36px; border-radius: 10px; background: rgba(0,255,170,0.1); display: flex; align-items: center; justify-content: center; font-size: 18px; }
 .ji-info { flex: 1; }
 .ji-name { font-size: 14px; font-weight: 600; }
 .ji-meta { font-size: 11px; opacity: 0.5; margin-top: 2px; }
+.ji-status { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 10px; background: rgba(0,255,170,0.12); color: var(--bio-emerald); }
+.stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.stat-card { padding: 14px 12px; border-radius: var(--radius-md); text-align: center; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); }
+.stat-value { font-size: 22px; font-weight: 700; background: linear-gradient(90deg, var(--theme-accent), var(--bio-emerald)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.stat-label { font-size: 11px; opacity: 0.5; margin-top: 4px; letter-spacing: 0.04em; }
 
-.ji-status {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 10px;
-  background: rgba(0, 255, 170, 0.12);
-  color: var(--bio-emerald);
-}
-
-.stats-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.stat-card {
-  padding: 14px 12px;
-  border-radius: var(--radius-md);
-  text-align: center;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--glass-border);
-}
-
-.stat-value {
-  font-size: 22px;
-  font-weight: 700;
-  background: linear-gradient(90deg, var(--theme-accent), var(--bio-emerald));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.stat-label {
-  font-size: 11px;
-  opacity: 0.5;
-  margin-top: 4px;
-  letter-spacing: 0.04em;
-}
-
-/* ─── FLOATING MINI PLAYER ─── */
 .mini-dock {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: calc(var(--nav-height) + var(--safe-bottom) + 8px);
-  width: calc(100% - 24px);
-  max-width: 456px;
-  height: var(--mini-height);
-  border-radius: var(--radius-lg);
-  background: rgba(10, 16, 26, 0.88);
-  border: 1px solid rgba(0, 229, 255, 0.18);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  box-shadow: inset 0 1px 1px var(--glass-highlight), 0 12px 40px rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 12px 0 14px;
-  z-index: 80;
-  cursor: pointer;
-  transition: transform 0.25s ease, opacity 0.25s;
-  opacity: 0;
-  pointer-events: none;
+  position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--nav-height) + var(--safe-bottom) + 8px);
+  width: calc(100% - 24px); max-width: 456px; height: var(--mini-height); border-radius: var(--radius-lg);
+  background: rgba(10,16,26,0.88); border: 1px solid rgba(0,229,255,0.18);
+  backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+  box-shadow: inset 0 1px 1px var(--glass-highlight), 0 12px 40px rgba(0,0,0,0.5);
+  display: flex; align-items: center; gap: 12px; padding: 0 12px 0 14px; z-index: 80; cursor: pointer;
+  transition: transform 0.25s ease, opacity 0.25s; opacity: 0; pointer-events: none;
 }
-
-.mini-dock.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
+.mini-dock.visible { opacity: 1; pointer-events: auto; }
 .mini-dock:active { transform: translateX(-50%) scale(0.98); }
-
-.mini-progress {
-  position: absolute;
-  top: 0;
-  left: 12px;
-  right: 12px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.mini-progress-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--theme-accent), var(--bio-emerald));
-  border-radius: 2px;
-  transition: width 0.3s linear;
-  box-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
-}
-
-.mini-glyph {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: linear-gradient(145deg, rgba(0, 229, 255, 0.15), rgba(0, 255, 170, 0.08));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  flex-shrink: 0;
-}
-
+.mini-progress { position: absolute; top: 0; left: 12px; right: 12px; height: 2px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+.mini-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--theme-accent), var(--bio-emerald)); border-radius: 2px; transition: width 0.3s linear; box-shadow: 0 0 8px rgba(0,229,255,0.5); }
+.mini-glyph { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(145deg, rgba(0,229,255,0.15), rgba(0,255,170,0.08)); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
 .mini-info { flex: 1; min-width: 0; }
-.mini-title {
-  font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.mini-sub {
-  font-size: 11px;
-  opacity: 0.5;
-  margin-top: 2px;
-}
-
-.mini-controls {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-shrink: 0;
-}
-
-.mini-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background: transparent;
-  color: var(--raw-titanium);
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
-}
-
-.mini-btn:active { background: rgba(255, 255, 255, 0.1); }
-
+.mini-title { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini-sub { font-size: 11px; opacity: 0.5; margin-top: 2px; }
+.mini-controls { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.mini-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent; color: var(--raw-titanium); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.mini-btn:active { background: rgba(255,255,255,0.1); }
 .mini-play {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--theme-accent);
-  color: #06090e;
-  font-size: 18px;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
-  transition: transform 0.2s, box-shadow 0.2s;
+  width: 44px; height: 44px; border-radius: 50%; background: var(--theme-accent); color: #06090e; font-size: 18px;
+  border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(0,229,255,0.4); transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .mini-play:active { transform: scale(0.92); }
 
-/* ─── BOTTOM NAV ─── */
 .bottom-nav {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 0;
-  width: 100%;
-  max-width: 480px;
-  height: calc(var(--nav-height) + var(--safe-bottom));
-  padding-bottom: var(--safe-bottom);
-  background: rgba(8, 12, 20, 0.92);
-  border-top: 1px solid var(--glass-border);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  display: flex;
-  align-items: stretch;
-  z-index: 90;
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.4);
+  position: fixed; left: 50%; transform: translateX(-50%); bottom: 0; width: 100%; max-width: 480px;
+  height: calc(var(--nav-height) + var(--safe-bottom)); padding-bottom: var(--safe-bottom);
+  background: rgba(8,12,20,0.92); border-top: 1px solid var(--glass-border);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); display: flex; align-items: stretch; z-index: 90;
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.4);
 }
-
 .nav-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  border: none;
-  background: transparent;
-  color: rgba(214, 226, 237, 0.4);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  transition: color 0.2s;
-  min-height: 48px;
-  padding-top: 6px;
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  border: none; background: transparent; color: rgba(214,226,237,0.4); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.02em; cursor: pointer; transition: color 0.2s; min-height: 48px; padding-top: 6px;
 }
-
 .nav-item .nav-icon { font-size: 22px; line-height: 1; }
 .nav-item.active { color: var(--theme-accent); }
 .nav-item:active { opacity: 0.7; }
 
-/* ─── STUDIO MODAL ─── */
-.studio-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 100;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-
-.studio-overlay.open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
+.studio-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+.studio-overlay.open { opacity: 1; pointer-events: auto; }
 .studio-sheet {
-  position: fixed;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%) translateY(105%);
-  width: 100%;
-  max-width: 480px;
-  height: 94vh;
-  max-height: 94vh;
-  border-radius: 28px 28px 0 0;
-  background: linear-gradient(180deg, #0c1420 0%, #06090e 40%);
-  border: 1px solid rgba(0, 229, 255, 0.12);
-  border-bottom: none;
-  z-index: 110;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
-  overflow: hidden;
-  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.6);
+  position: fixed; left: 50%; bottom: 0; transform: translateX(-50%) translateY(105%); width: 100%; max-width: 480px;
+  height: 94vh; max-height: 94vh; border-radius: 28px 28px 0 0;
+  background: linear-gradient(180deg, #0c1420 0%, #06090e 40%); border: 1px solid rgba(0,229,255,0.12); border-bottom: none;
+  z-index: 110; display: flex; flex-direction: column; transition: transform 0.4s cubic-bezier(0.32,0.72,0,1);
+  overflow: hidden; box-shadow: 0 -20px 60px rgba(0,0,0,0.6);
 }
-
-.studio-sheet.open {
-  transform: translateX(-50%) translateY(0);
-}
-
-.studio-handle {
-  width: 40px;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 10px auto 6px;
-  flex-shrink: 0;
-}
-
-.studio-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 16px 12px;
-  flex-shrink: 0;
-}
-
-.studio-collapse {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  border: none;
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--raw-titanium);
-  font-size: 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mode-tabs {
-  display: flex;
-  gap: 4px;
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 14px;
-  padding: 3px;
-}
-
+.studio-sheet.open { transform: translateX(-50%) translateY(0); }
+.studio-handle { width: 40px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.2); margin: 10px auto 6px; flex-shrink: 0; }
+.studio-header { display: flex; align-items: center; justify-content: space-between; padding: 4px 16px 12px; flex-shrink: 0; }
+.studio-collapse { width: 40px; height: 40px; border-radius: 12px; border: none; background: rgba(255,255,255,0.06); color: var(--raw-titanium); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.mode-tabs { display: flex; gap: 4px; background: rgba(255,255,255,0.04); border-radius: 14px; padding: 3px; }
 .mode-tab {
-  padding: 8px 12px;
-  border-radius: 11px;
-  border: none;
-  background: transparent;
-  color: rgba(214, 226, 237, 0.5);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: all 0.2s;
-  min-height: 34px;
+  padding: 8px 12px; border-radius: 11px; border: none; background: transparent; color: rgba(214,226,237,0.5);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; min-height: 34px;
 }
-
-.mode-tab.active {
-  background: rgba(0, 229, 255, 0.15);
-  color: var(--theme-accent);
-}
-
-.shuffle-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  border: none;
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--raw-titanium);
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.shuffle-btn.on { color: var(--theme-accent); background: rgba(0, 229, 255, 0.12); }
-
-/* STAGE */
-.stage-chassis {
-  flex: 1;
-  overflow-y: auto;
-  padding: 8px 20px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.stage-panel {
-  width: 100%;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  animation: fadeIn 0.3s ease;
-}
-
+.mode-tab.active { background: rgba(0,229,255,0.15); color: var(--theme-accent); }
+.shuffle-btn { width: 40px; height: 40px; border-radius: 12px; border: none; background: rgba(255,255,255,0.06); color: var(--raw-titanium); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.shuffle-btn.on { color: var(--theme-accent); background: rgba(0,229,255,0.12); }
+.stage-chassis { flex: 1; overflow-y: auto; padding: 8px 20px 16px; display: flex; flex-direction: column; align-items: center; }
+.stage-panel { width: 100%; display: none; flex-direction: column; align-items: center; animation: fadeIn 0.3s ease; }
 .stage-panel.active { display: flex; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* SPECTRUM */
-.spectrum-glyph {
-  font-size: 72px;
-  margin: 20px 0 12px;
-  filter: drop-shadow(0 0 24px rgba(0, 229, 255, 0.4));
-  transition: transform 0.15s;
-}
-
-.spectrum-glyph.pulse {
-  animation: glyph-pulse 1.2s ease-in-out infinite;
-}
-
-@keyframes glyph-pulse {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.35)); }
-  50% { transform: scale(1.06); filter: drop-shadow(0 0 36px rgba(0, 229, 255, 0.55)); }
-}
-
-.spectrum-bars {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 5px;
-  height: 80px;
-  width: 100%;
-  max-width: 280px;
-  margin: 12px 0 20px;
-}
-
-.sbar {
-  width: 8px;
-  border-radius: 4px;
-  background: linear-gradient(180deg, var(--theme-accent), var(--bio-emerald));
-  height: 12px;
-  transition: height 0.08s linear;
-  box-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
-}
-
-.track-title {
-  font-size: 20px;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 4px;
-  letter-spacing: -0.01em;
-}
-
-.track-album {
-  font-size: 13px;
-  opacity: 0.5;
-  margin-bottom: 20px;
-}
-
-/* EQUALIZER */
-.eq-faders {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  padding: 20px 8px;
-}
-
-.fader-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.fader-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.fader-label {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  opacity: 0.55;
-}
-
-.fader-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--theme-accent);
-  font-variant-numeric: tabular-nums;
-}
-
-.fader-track {
-  position: relative;
-  height: 36px;
-  display: flex;
-  align-items: center;
-}
-
-.fader-track input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 8px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.08);
-  outline: none;
-  cursor: pointer;
-}
-
-.fader-track input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--theme-accent);
-  box-shadow: 0 0 16px rgba(0, 229, 255, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-  cursor: pointer;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.fader-track input[type="range"]::-moz-range-thumb {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--theme-accent);
-  box-shadow: 0 0 16px rgba(0, 229, 255, 0.5);
-  cursor: pointer;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.eq-meta {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin-top: 8px;
-  font-size: 13px;
-  opacity: 0.6;
-}
-
-/* PROTOCOL */
-.proto-content {
-  width: 100%;
-  text-align: left;
-  padding: 8px 4px;
-}
-
-.proto-headline {
-  font-size: 17px;
-  font-weight: 700;
-  margin-bottom: 14px;
-  line-height: 1.35;
-  color: var(--theme-accent);
-}
-
-.proto-body {
-  font-size: 14px;
-  line-height: 1.6;
-  opacity: 0.85;
-  margin-bottom: 18px;
-  white-space: pre-line;
-}
-
-.proto-science {
-  padding: 14px;
-  border-radius: var(--radius-md);
-  background: rgba(0, 229, 255, 0.06);
-  border: 1px solid rgba(0, 229, 255, 0.15);
-  font-size: 13px;
-  line-height: 1.55;
-  opacity: 0.8;
-}
-
-.proto-science strong {
-  color: var(--bio-emerald);
-  font-weight: 600;
-}
-
-/* QUANTIZE BTN */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.spectrum-glyph { font-size: 72px; margin: 20px 0 12px; filter: drop-shadow(0 0 24px rgba(0,229,255,0.4)); transition: transform 0.15s; }
+.spectrum-glyph.pulse { animation: glyph-pulse 1.2s ease-in-out infinite; }
+@keyframes glyph-pulse { 0%,100%{transform:scale(1);filter:drop-shadow(0 0 20px rgba(0,229,255,0.35))} 50%{transform:scale(1.06);filter:drop-shadow(0 0 36px rgba(0,229,255,0.55))} }
+.spectrum-bars { display: flex; align-items: flex-end; justify-content: center; gap: 5px; height: 80px; width: 100%; max-width: 280px; margin: 12px 0 20px; }
+.sbar { width: 8px; border-radius: 4px; background: linear-gradient(180deg, var(--theme-accent), var(--bio-emerald)); height: 12px; transition: height 0.08s linear; box-shadow: 0 0 8px rgba(0,229,255,0.3); }
+.track-title { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 4px; letter-spacing: -0.01em; }
+.track-album { font-size: 13px; opacity: 0.5; margin-bottom: 20px; }
+.eq-faders { width: 100%; display: flex; flex-direction: column; gap: 28px; padding: 20px 8px; }
+.fader-group { display: flex; flex-direction: column; gap: 10px; }
+.fader-header { display: flex; justify-content: space-between; align-items: baseline; }
+.fader-label { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.55; }
+.fader-value { font-size: 18px; font-weight: 700; color: var(--theme-accent); font-variant-numeric: tabular-nums; }
+.fader-track { position: relative; height: 36px; display: flex; align-items: center; }
+.fader-track input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.08); outline: none; cursor: pointer; }
+.fader-track input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 28px; height: 28px; border-radius: 50%; background: var(--theme-accent); box-shadow: 0 0 16px rgba(0,229,255,0.5), inset 0 1px 1px rgba(255,255,255,0.3); cursor: pointer; border: 2px solid rgba(255,255,255,0.2); }
+.fader-track input[type="range"]::-moz-range-thumb { width: 28px; height: 28px; border-radius: 50%; background: var(--theme-accent); box-shadow: 0 0 16px rgba(0,229,255,0.5); cursor: pointer; border: 2px solid rgba(255,255,255,0.2); }
+.eq-meta { display: flex; gap: 16px; justify-content: center; margin-top: 8px; font-size: 13px; opacity: 0.6; }
+.proto-content { width: 100%; text-align: left; padding: 8px 4px; }
+.proto-headline { font-size: 17px; font-weight: 700; margin-bottom: 14px; line-height: 1.35; color: var(--theme-accent); }
+.proto-body { font-size: 14px; line-height: 1.6; opacity: 0.85; margin-bottom: 18px; white-space: pre-line; }
+.proto-science { padding: 14px; border-radius: var(--radius-md); background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.15); font-size: 13px; line-height: 1.55; opacity: 0.8; }
+.proto-science strong { color: var(--bio-emerald); font-weight: 600; }
 .quantize-btn {
-  width: 100%;
-  max-width: 320px;
-  margin: 16px auto 8px;
-  padding: 14px 20px;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 145, 0, 0.4);
-  background: rgba(255, 145, 0, 0.1);
-  color: var(--synthetic-amber);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: background 0.2s;
-  min-height: 48px;
+  width: 100%; max-width: 320px; margin: 16px auto 8px; padding: 14px 20px; border-radius: var(--radius-md);
+  border: 1px solid rgba(255,145,0,0.4); background: rgba(255,145,0,0.1); color: var(--synthetic-amber);
+  font-size: 13px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; display: none; align-items: center; justify-content: center; gap: 8px;
+  transition: background 0.2s; min-height: 48px;
 }
-
 .quantize-btn.visible { display: flex; }
-.quantize-btn:active { background: rgba(255, 145, 0, 0.2); }
-
-/* SEEKBAR */
-.seek-area {
-  width: 100%;
-  padding: 8px 20px 4px;
-  flex-shrink: 0;
-}
-
-.seek-times {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  opacity: 0.5;
-  font-variant-numeric: tabular-nums;
-  margin-bottom: 6px;
-}
-
-.seek-bar {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 6px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.1);
-  outline: none;
-  cursor: pointer;
-}
-
-.seek-bar::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--raw-titanium);
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
-  cursor: pointer;
-}
-
-.seek-bar::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--raw-titanium);
-  cursor: pointer;
-  border: none;
-}
-
-/* TRANSPORT */
-.transport {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 28px;
-  padding: 12px 20px calc(20px + var(--safe-bottom));
-  flex-shrink: 0;
-}
-
-.tr-btn {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--raw-titanium);
-  font-size: 22px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s, transform 0.15s;
-}
-
-.tr-btn:active { background: rgba(255, 255, 255, 0.12); transform: scale(0.92); }
-
+.quantize-btn:active { background: rgba(255,145,0,0.2); }
+.seek-area { width: 100%; padding: 8px 20px 4px; flex-shrink: 0; }
+.seek-times { display: flex; justify-content: space-between; font-size: 11px; opacity: 0.5; font-variant-numeric: tabular-nums; margin-bottom: 6px; }
+.seek-bar { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); outline: none; cursor: pointer; }
+.seek-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--raw-titanium); box-shadow: 0 0 10px rgba(0,229,255,0.4); cursor: pointer; }
+.seek-bar::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--raw-titanium); cursor: pointer; border: none; }
+.transport { display: flex; align-items: center; justify-content: center; gap: 28px; padding: 12px 20px calc(20px + var(--safe-bottom)); flex-shrink: 0; }
+.tr-btn { width: 52px; height: 52px; border-radius: 50%; border: none; background: rgba(255,255,255,0.06); color: var(--raw-titanium); font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.15s; }
+.tr-btn:active { background: rgba(255,255,255,0.12); transform: scale(0.92); }
 .tr-play {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  border: none;
-  background: linear-gradient(145deg, var(--theme-accent), #00b8d4);
-  color: #06090e;
-  font-size: 28px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 32px rgba(0, 229, 255, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.35);
-  transition: transform 0.15s, box-shadow 0.2s;
+  width: 72px; height: 72px; border-radius: 50%; border: none; background: linear-gradient(145deg, var(--theme-accent), #00b8d4);
+  color: #06090e; font-size: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 32px rgba(0,229,255,0.45), inset 0 1px 2px rgba(255,255,255,0.35); transition: transform 0.15s, box-shadow 0.2s;
 }
+.tr-play:active { transform: scale(0.94); box-shadow: 0 0 20px rgba(0,229,255,0.3); }
 
-.tr-play:active {
-  transform: scale(0.94);
-  box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
-}
-
-/* EMERGENCY BANNER */
 .emergency-banner {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%) translateY(-120%);
-  width: calc(100% - 24px);
-  max-width: 456px;
-  padding: 14px 16px;
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
-  background: linear-gradient(135deg, rgba(255, 0, 85, 0.92), rgba(255, 145, 0, 0.85));
-  color: #fff;
-  font-size: 13px;
-  font-weight: 600;
-  text-align: center;
-  z-index: 200;
-  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
-  box-shadow: 0 8px 32px rgba(255, 0, 85, 0.35);
+  position: fixed; top: 0; left: 50%; transform: translateX(-50%) translateY(-120%);
+  width: calc(100% - 24px); max-width: 456px; padding: 14px 16px; border-radius: 0 0 var(--radius-md) var(--radius-md);
+  background: linear-gradient(135deg, rgba(255,0,85,0.92), rgba(255,145,0,0.85)); color: #fff; font-size: 13px; font-weight: 600;
+  text-align: center; z-index: 200; transition: transform 0.4s cubic-bezier(0.32,0.72,0,1); box-shadow: 0 8px 32px rgba(255,0,85,0.35);
+  cursor: pointer;
 }
+.emergency-banner.show { transform: translateX(-50%) translateY(0); }
 
-.emergency-banner.show {
-  transform: translateX(-50%) translateY(0);
-}
-
-/* TOAST */
 .toast {
-  position: fixed;
-  bottom: calc(var(--nav-height) + var(--mini-height) + var(--safe-bottom) + 24px);
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  padding: 12px 20px;
-  border-radius: 14px;
-  background: rgba(12, 20, 32, 0.95);
-  border: 1px solid rgba(0, 229, 255, 0.25);
-  color: var(--raw-titanium);
-  font-size: 13px;
-  font-weight: 600;
-  z-index: 150;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s, transform 0.3s;
-  backdrop-filter: blur(16px);
-  max-width: 90%;
-  text-align: center;
+  position: fixed; bottom: calc(var(--nav-height) + var(--mini-height) + var(--safe-bottom) + 24px);
+  left: 50%; transform: translateX(-50%) translateY(20px); padding: 12px 20px; border-radius: 14px;
+  background: rgba(12,20,32,0.95); border: 1px solid rgba(0,229,255,0.25); color: var(--raw-titanium);
+  font-size: 13px; font-weight: 600; z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s;
+  backdrop-filter: blur(16px); max-width: 90%; text-align: center;
 }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* MODAL for new playlist */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 160;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s;
-}
-
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 160; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
 .modal-backdrop.open { opacity: 1; pointer-events: auto; }
-
 .modal-box {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0.92);
-  width: calc(100% - 40px);
-  max-width: 340px;
-  padding: 24px;
-  border-radius: var(--radius-lg);
-  background: #0e1624;
-  border: 1px solid rgba(0, 229, 255, 0.2);
-  z-index: 170;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s, transform 0.25s;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+  position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%) scale(0.92); width: calc(100% - 40px); max-width: 340px;
+  padding: 24px; border-radius: var(--radius-lg); background: #0e1624; border: 1px solid rgba(0,229,255,0.2);
+  z-index: 170; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; box-shadow: 0 24px 64px rgba(0,0,0,0.6);
 }
+.modal-backdrop.open .modal-box { opacity: 1; pointer-events: auto; transform: translate(-50%,-50%) scale(1); }
+.modal-box h3 { font-size: 17px; font-weight: 700; margin-bottom: 14px; }
+.modal-box input { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--raw-titanium); font-size: 15px; font-family: inherit; outline: none; margin-bottom: 16px; }
+.modal-box input:focus { border-color: rgba(0,229,255,0.4); }
+.modal-actions { display: flex; gap: 10px; }
+.modal-actions button { flex: 1; padding: 12px; border-radius: 12px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; min-height: 44px; }
+.modal-cancel { background: rgba(255,255,255,0.06); color: var(--raw-titanium); }
+.modal-ok { background: var(--theme-accent); color: #06090e; }
 
-.modal-backdrop.open .modal-box {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.modal-box h3 {
-  font-size: 17px;
-  font-weight: 700;
-  margin-bottom: 14px;
-}
-
-.modal-box input {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid var(--glass-border);
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--raw-titanium);
-  font-size: 15px;
-  font-family: inherit;
-  outline: none;
-  margin-bottom: 16px;
-}
-
-.modal-box input:focus { border-color: rgba(0, 229, 255, 0.4); }
-
-.modal-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.modal-actions button {
-  flex: 1;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  min-height: 44px;
-}
-
-.modal-cancel {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--raw-titanium);
-}
-
-.modal-ok {
-  background: var(--theme-accent);
-  color: #06090e;
-}
-
-/* QUEUE CONTEXT MENU */
 .ctx-menu {
-  position: fixed;
-  z-index: 180;
-  min-width: 180px;
-  padding: 6px;
-  border-radius: 14px;
-  background: rgba(14, 22, 36, 0.96);
-  border: 1px solid rgba(0, 229, 255, 0.2);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  pointer-events: none;
-  transform: scale(0.92);
-  transition: opacity 0.18s, transform 0.18s;
+  position: fixed; z-index: 180; min-width: 180px; padding: 6px; border-radius: 14px;
+  background: rgba(14,22,36,0.96); border: 1px solid rgba(0,229,255,0.2); backdrop-filter: blur(20px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5); opacity: 0; pointer-events: none; transform: scale(0.92); transition: opacity 0.18s, transform 0.18s;
 }
-
-.ctx-menu.open {
-  opacity: 1;
-  pointer-events: auto;
-  transform: scale(1);
-}
-
-.ctx-item {
-  display: block;
-  width: 100%;
-  padding: 12px 14px;
-  border: none;
-  background: transparent;
-  color: var(--raw-titanium);
-  font-size: 14px;
-  font-weight: 500;
-  text-align: left;
-  border-radius: 10px;
-  cursor: pointer;
-  min-height: 44px;
-}
-
-.ctx-item:active { background: rgba(0, 229, 255, 0.12); }
+.ctx-menu.open { opacity: 1; pointer-events: auto; transform: scale(1); }
+.ctx-item { display: block; width: 100%; padding: 12px 14px; border: none; background: transparent; color: var(--raw-titanium); font-size: 14px; font-weight: 500; text-align: left; border-radius: 10px; cursor: pointer; min-height: 44px; }
+.ctx-item:active { background: rgba(0,229,255,0.12); }
 .ctx-item.danger { color: var(--alert-crimson); }
+
+.smart-suggest {
+  position: fixed; bottom: calc(var(--nav-height) + var(--mini-height) + var(--safe-bottom) + 16px);
+  left: 50%; transform: translateX(-50%) translateY(30px); width: calc(100% - 32px); max-width: 420px;
+  padding: 14px 16px; border-radius: var(--radius-md); background: rgba(10,18,28,0.95);
+  border: 1px solid rgba(0,255,170,0.3); z-index: 140; opacity: 0; pointer-events: none;
+  transition: opacity 0.35s, transform 0.35s; backdrop-filter: blur(20px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+}
+.smart-suggest.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+.ss-title { font-size: 13px; font-weight: 700; color: var(--bio-emerald); margin-bottom: 4px; }
+.ss-body { font-size: 13px; opacity: 0.9; line-height: 1.4; }
+.ss-actions { display: flex; gap: 8px; margin-top: 10px; }
+.ss-btn { flex: 1; padding: 9px; border-radius: 10px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; min-height: 38px; }
+.ss-btn.go { background: rgba(0,255,170,0.2); color: var(--bio-emerald); }
+.ss-btn.dismiss { background: rgba(255,255,255,0.06); color: var(--raw-titanium); }
 </style>
 </head>
 <body>
 <div id="app">
-  <!-- TOP CONSOLE -->
   <header class="top-console">
     <div class="brand">HUMAN 2.0</div>
     <div class="energy-wrap">
@@ -1400,10 +386,19 @@ body::before {
     </button>
   </header>
 
-  <!-- MAIN SCREENS -->
   <div class="main-area">
-    <!-- STREAM -->
     <section class="screen active" id="screen-stream" data-tab="stream">
+      <div class="biohack-card" id="dailyBiohack">
+        <div class="bh-label">Щоденний біохак</div>
+        <div class="bh-title" id="bhTitle">Завантаження…</div>
+        <div class="bh-body" id="bhBody"></div>
+        <div class="bh-science" id="bhScience"></div>
+        <div class="bh-actions">
+          <button class="bh-btn primary" id="bhDoIt" type="button">Виконати зараз</button>
+          <button class="bh-btn secondary" id="bhNext" type="button">Інший</button>
+        </div>
+      </div>
+
       <div class="section-title">Плейлисти</div>
       <div class="playlist-carousel" id="playlistCarousel"></div>
       <button class="btn-new-pl" id="btnNewPlaylist" type="button">＋ Новий плейлист</button>
@@ -1413,17 +408,15 @@ body::before {
       </div>
     </section>
 
-    <!-- CATALOG -->
     <section class="screen" id="screen-catalog" data-tab="catalog">
       <div class="search-bar">
         <span style="opacity:0.4">🔍</span>
-        <input type="search" id="catalogSearch" placeholder="Пошук дій…" autocomplete="off">
+        <input type="search" id="catalogSearch" placeholder="Пошук дій або біохаків…" autocomplete="off">
       </div>
       <div class="filter-chips" id="filterChips"></div>
       <div class="catalog-grid" id="catalogGrid"></div>
     </section>
 
-    <!-- PLAYER (just opens studio) -->
     <section class="screen" id="screen-player" data-tab="player">
       <div style="text-align:center;padding:60px 20px;opacity:0.5">
         <div style="font-size:48px;margin-bottom:12px">🎛</div>
@@ -1431,7 +424,6 @@ body::before {
       </div>
     </section>
 
-    <!-- SAFE / JOURNAL -->
     <section class="screen" id="screen-safe" data-tab="safe">
       <div class="stats-row" id="statsRow">
         <div class="stat-card"><div class="stat-value" id="statSessions">0</div><div class="stat-label">Сесій</div></div>
@@ -1445,7 +437,6 @@ body::before {
     </section>
   </div>
 
-  <!-- MINI DOCK -->
   <div class="mini-dock" id="miniDock">
     <div class="mini-progress"><div class="mini-progress-fill" id="miniProgress"></div></div>
     <div class="mini-glyph" id="miniGlyph">⚡</div>
@@ -1460,7 +451,6 @@ body::before {
     </div>
   </div>
 
-  <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <button class="nav-item active" data-nav="stream" type="button"><span class="nav-icon">⚡</span>Стрім</button>
     <button class="nav-item" data-nav="catalog" type="button"><span class="nav-icon">🗂️</span>Каталог</button>
@@ -1469,7 +459,6 @@ body::before {
   </nav>
 </div>
 
-<!-- STUDIO OVERLAY + SHEET -->
 <div class="studio-overlay" id="studioOverlay"></div>
 <div class="studio-sheet" id="studioSheet">
   <div class="studio-handle"></div>
@@ -1482,45 +471,26 @@ body::before {
     </div>
     <button class="shuffle-btn" id="shuffleBtn" type="button">🔀</button>
   </div>
-
   <div class="stage-chassis">
-    <!-- SPECTRUM -->
     <div class="stage-panel active" id="panel-spectrum">
       <div class="spectrum-glyph" id="spectrumGlyph">⚡</div>
       <div class="spectrum-bars" id="spectrumBars"></div>
       <div class="track-title" id="studioTitle">Обери дію</div>
       <div class="track-album" id="studioAlbum">Human 2.0</div>
     </div>
-
-    <!-- EQ -->
     <div class="stage-panel" id="panel-eq">
       <div class="eq-faders">
         <div class="fader-group">
-          <div class="fader-header">
-            <span class="fader-label">ЧАС</span>
-            <span class="fader-value" id="faderTimeVal">15 хв</span>
-          </div>
-          <div class="fader-track">
-            <input type="range" id="faderTime" min="1" max="90" value="15">
-          </div>
+          <div class="fader-header"><span class="fader-label">ЧАС</span><span class="fader-value" id="faderTimeVal">15 хв</span></div>
+          <div class="fader-track"><input type="range" id="faderTime" min="1" max="90" value="15"></div>
         </div>
         <div class="fader-group">
-          <div class="fader-header">
-            <span class="fader-label">КАЛОРІЇ</span>
-            <span class="fader-value" id="faderCalVal">80 ккал</span>
-          </div>
-          <div class="fader-track">
-            <input type="range" id="faderCal" min="0" max="800" value="80" step="10">
-          </div>
+          <div class="fader-header"><span class="fader-label">КАЛОРІЇ</span><span class="fader-value" id="faderCalVal">80 ккал</span></div>
+          <div class="fader-track"><input type="range" id="faderCal" min="0" max="800" value="80" step="10"></div>
         </div>
         <div class="fader-group">
-          <div class="fader-header">
-            <span class="fader-label">НАПРУГА · STRAIN</span>
-            <span class="fader-value" id="faderStrainVal">4 L</span>
-          </div>
-          <div class="fader-track">
-            <input type="range" id="faderStrain" min="1" max="10" value="4">
-          </div>
+          <div class="fader-header"><span class="fader-label">НАПРУГА · STRAIN</span><span class="fader-value" id="faderStrainVal">4 L</span></div>
+          <div class="fader-track"><input type="range" id="faderStrain" min="1" max="10" value="4"></div>
         </div>
       </div>
       <div class="eq-meta">
@@ -1529,8 +499,6 @@ body::before {
         <span id="eqMetaStrain">📊 4L</span>
       </div>
     </div>
-
-    <!-- PROTOCOL -->
     <div class="stage-panel" id="panel-proto">
       <div class="proto-content">
         <div class="proto-headline" id="protoHeadline">—</div>
@@ -1538,18 +506,12 @@ body::before {
         <div class="proto-science" id="protoScience"><strong>Наука:</strong> —</div>
       </div>
     </div>
-
     <button class="quantize-btn" id="quantizeBtn" type="button">⚡ РОЗЩЕПИТИ НА КВАНТИ</button>
   </div>
-
   <div class="seek-area">
-    <div class="seek-times">
-      <span id="seekCurrent">00:00</span>
-      <span id="seekTotal">00:00</span>
-    </div>
+    <div class="seek-times"><span id="seekCurrent">00:00</span><span id="seekTotal">00:00</span></div>
     <input type="range" class="seek-bar" id="seekBar" min="0" max="1000" value="0">
   </div>
-
   <div class="transport">
     <button class="tr-btn" id="trPrev" type="button">⏮</button>
     <button class="tr-play" id="trPlay" type="button">▶</button>
@@ -1557,13 +519,17 @@ body::before {
   </div>
 </div>
 
-<!-- EMERGENCY -->
-<div class="emergency-banner" id="emergencyBanner">⚠ Енергія критична · виконай відновлювальну дію (Strain ≤ 3)</div>
-
-<!-- TOAST -->
+<div class="emergency-banner" id="emergencyBanner">⚠ Енергія критична · натисни для біохак-відновлення</div>
 <div class="toast" id="toast"></div>
+<div class="smart-suggest" id="smartSuggest">
+  <div class="ss-title" id="ssTitle">Розумна рекомендація</div>
+  <div class="ss-body" id="ssBody"></div>
+  <div class="ss-actions">
+    <button class="ss-btn go" id="ssGo" type="button">Зробити</button>
+    <button class="ss-btn dismiss" id="ssDismiss" type="button">Пізніше</button>
+  </div>
+</div>
 
-<!-- NEW PLAYLIST MODAL -->
 <div class="modal-backdrop" id="plModal">
   <div class="modal-box">
     <h3>Новий плейлист</h3>
@@ -1575,7 +541,6 @@ body::before {
   </div>
 </div>
 
-<!-- CONTEXT MENU -->
 <div class="ctx-menu" id="ctxMenu">
   <button class="ctx-item" data-action="play-next" type="button">Грати наступним</button>
   <button class="ctx-item" data-action="queue-end" type="button">В кінець черги</button>
@@ -1586,267 +551,205 @@ body::before {
 (function () {
   "use strict";
 
-  // ═══════════════════════════════════════════════════════════
-  // MASTER LIFE REPOSITORY
-  // ═══════════════════════════════════════════════════════════
   const MASTER = [
-    { id: "m01", album: "Ранок", name: "Гігієна порожнини рота", timeMin: 4, cal: 8, strain: 1, glyph: "🦷",
+    { id: "m01", album: "Ранок", name: "Гігієна порожнини рота", timeMin: 4, cal: 8, strain: 1, glyph: "🦷", biohack: false,
       protoHeadline: "Мікробіом і системне запалення",
       protoBody: "1. Нанеси пасту з фторидом 1450 ppm.\n2. Техніка Басса 2 хв — кругові рухи під кутом 45°.\n3. Міжзубні йоршики або флосс.\n4. Язик скребком 10 разів.\n5. Ополіскувач без спирту.",
       protoScience: "Системне запалення від пародонтопатогенів підвищує CRP. Чистка знижує бактеріальне навантаження і кортизол через ритуал контролю." },
-    { id: "m02", album: "Ранок", name: "Склянка води + електроліти", timeMin: 2, cal: 0, strain: 1, glyph: "💧",
+    { id: "m02", album: "Ранок", name: "Склянка води + електроліти", timeMin: 2, cal: 0, strain: 1, glyph: "💧", biohack: true,
       protoHeadline: "Регідратація після 7–8 год дегідратації",
-      protoBody: "1. 400–500 мл кімнатної води.\n2. Щіпка морської солі або електролітний пакет (Na, K, Mg).\n3. Випити за 2–3 хв, не ковтками «залпом».",
-      protoScience: "За ніч втрачається 0.5–1 л води. Ранкова регідратація відновлює об’єм плазми, покращує когнітивну швидкість і знижує аденозин-залежну сонливість." },
-    { id: "m03", album: "Ранок", name: "Контрастний душ", timeMin: 6, cal: 25, strain: 4, glyph: "🚿",
+      protoBody: "1. 400–500 мл кімнатної води.\n2. Щіпка морської солі або електролітний пакет (Na, K, Mg).\n3. Випити за 2–3 хв.",
+      protoScience: "Навіть 1–2% втрати маси тіла водою викликає втому і туман. Ранкова регідратація відновлює об’єм плазми і когнітивну швидкість." },
+    { id: "m03", album: "Ранок", name: "Контрастний душ", timeMin: 6, cal: 25, strain: 4, glyph: "🚿", biohack: true,
       protoHeadline: "Холодовий шок → норадреналін + дофамін",
       protoBody: "1. 2 хв тепла вода.\n2. 30–60 с холодна (16–18 °C).\n3. Повторити 3 цикли.\n4. Закінчити холодом.\n5. Глибоке дихання під час холоду.",
-      protoScience: "Холодовий вплив підвищує норадреналін у 2–3 рази, дофамін на 250 %. Активує буру жирову тканину і покращує резистентність до стресу." },
-    { id: "m04", album: "Ранок", name: "Провітрювання + ранкове сонце", timeMin: 8, cal: 15, strain: 2, glyph: "☀️",
+      protoScience: "Холод підвищує норадреналін у 2–3 рази, дофамін на ~250%. Активує бурий жир і покращує резистентність до стресу (дослідження холодового впливу)." },
+    { id: "m04", album: "Ранок", name: "Провітрювання + ранкове сонце", timeMin: 8, cal: 15, strain: 2, glyph: "☀️", biohack: true,
       protoHeadline: "Оптичний потік для кортизольного піку",
-      protoBody: "1. Відкрий вікно на 3–5 хв.\n2. Вийди на балкон/вулицю без сонцезахисних окулярів.\n3. Дивись у напрямку сонця (не прямо в диск) 5–8 хв.\n4. Легка ходьба на місці.",
-      protoScience: "Світло 10 000+ люкс вранці фіксує циркадний годинник (SCN), підвищує кортизол у правильний час і покращує якість нічного сну через мелатоніновий таймінг." },
-    { id: "m05", album: "Тіло & Спорт", name: "Суглобова гімнастика", timeMin: 10, cal: 40, strain: 3, glyph: "🦴",
+      protoBody: "1. Відкрий вікно на 3–5 хв.\n2. Вийди на балкон/вулицю без окулярів.\n3. Дивись у напрямку сонця (не прямо в диск) 5–8 хв.\n4. Легка ходьба.",
+      protoScience: "Світло 10 000+ люкс вранці фіксує SCN, дає правильний кортизольний пік і покращує нічний мелатонін. Мета-аналізи підтверджують зниження втоми." },
+    { id: "m05", album: "Тіло & Спорт", name: "Суглобова гімнастика", timeMin: 10, cal: 40, strain: 3, glyph: "🦴", biohack: false,
       protoHeadline: "Синовіальна рідина + пропріоцепція",
-      protoBody: "1. Шия: 8 кіл в кожну сторону.\n2. Плечі: обертання вперед/назад.\n3. Лікті, зап’ястя — круги.\n4. Таз: «вісімка».\n5. Коліна, щиколотки.\n6. Хребет: кішка-корова + ротації.",
-      protoScience: "Рух «змащує» суглоби синовіальною рідиною, активує механорецептори і знижує ризик травм у наступних навантаженнях." },
-    { id: "m06", album: "Тіло & Спорт", name: "Планка + відтискання", timeMin: 12, cal: 90, strain: 7, glyph: "💪",
+      protoBody: "1. Шия: 8 кіл.\n2. Плечі: обертання.\n3. Лікті, зап’ястя.\n4. Таз: «вісімка».\n5. Коліна, щиколотки.\n6. Кішка-корова + ротації.",
+      protoScience: "Рух змащує суглоби і активує механорецептори, знижуючи ризик травм." },
+    { id: "m06", album: "Тіло & Спорт", name: "Планка + відтискання", timeMin: 12, cal: 90, strain: 7, glyph: "💪", biohack: false,
       protoHeadline: "Ізометрія кора + push-патерн",
-      protoBody: "1. Планка на ліктях 3×40–60 с.\n2. Відпочинок 30 с.\n3. Відтискання 3×8–15 (коліна/повні).\n4. Контроль лопаток і тазу.\n5. Дихання: видих на зусиллі.",
-      protoScience: "Ізометричні утримання підвищують внутрішньочеревний тиск і стабільність хребта. Відтискання — базовий горизонтальний жим, який підтримує плечевий пояс." },
-    { id: "m07", album: "Тіло & Спорт", name: "Zone 2 кардіо (ходьба/біг)", timeMin: 30, cal: 220, strain: 5, glyph: "🏃",
+      protoBody: "1. Планка 3×40–60 с.\n2. Відпочинок 30 с.\n3. Відтискання 3×8–15.\n4. Контроль лопаток і тазу.",
+      protoScience: "Ізометрія підвищує внутрішньочеревний тиск і стабільність хребта." },
+    { id: "m07", album: "Тіло & Спорт", name: "Zone 2 кардіо", timeMin: 30, cal: 220, strain: 5, glyph: "🏃", biohack: true,
       protoHeadline: "Мітохондріальна ефективність",
-      protoBody: "1. 5 хв розминка кроком.\n2. 20–25 хв у Zone 2 (можна говорити фразами).\n3. Пульс ≈ 60–70 % від max.\n4. 3–5 хв заминка.",
-      protoScience: "Zone 2 тренує окислювальне фосфорилювання, збільшує щільність мітохондрій і покращує утилізацію жирів. База для довгострокової енергії." },
-    { id: "m08", album: "Тіло & Спорт", name: "Вправи для очей 20-20-20", timeMin: 3, cal: 2, strain: 1, glyph: "👁️",
-      protoHeadline: "Акомодація + зменшення digital eye strain",
-      protoBody: "1. Кожні 20 хв роботи — 20 с дивись на об’єкт ≥ 6 м.\n2. 10 повільних моргань.\n3. Пальмінг 30 с (долоні на очі).\n4. Фокус: палець → далечінь ×5.",
-      protoScience: "Тривала робота на близькій відстані фіксує циліарний м’яз. Правило 20-20-20 знижує астенопію і сухість очей." },
-    { id: "m09", album: "Deep Work", name: "Архітектурний кодинг", timeMin: 45, cal: 60, strain: 6, glyph: "🏗️",
-      protoHeadline: "Глибокий фокус + flow-стан",
-      protoBody: "1. Визнач один архітектурний outcome.\n2. Закрий усі месенджери.\n3. 45-хв блок без перемикань.\n4. Запиши рішення у нотатки.\n5. 5-хв ретро після.",
-      protoScience: "Глибока робота підвищує BDNF і щільність синаптичних зв’язків. Перемикання контексту коштує до 23 хв на повернення." },
-    { id: "m10", album: "Deep Work", name: "Мовний спринт (Anki/діалоги)", timeMin: 20, cal: 25, strain: 4, glyph: "🗣️",
-      protoHeadline: "Активне пригадування + spaced repetition",
-      protoBody: "1. 10 хв Anki (нові + due).\n2. 8 хв говоріння вголос / shadowing.\n3. 2 хв запис помилок.\n4. Без перекладу — тільки target language.",
-      protoScience: "Активне пригадування сильніше закріплює пам’ять, ніж пасивне читання. SRS оптимізує інтервали забування." },
-    { id: "m11", album: "Deep Work", name: "Читання літератури", timeMin: 25, cal: 20, strain: 3, glyph: "📖",
+      protoBody: "1. 5 хв розминка.\n2. 20–25 хв Zone 2 (можна говорити фразами).\n3. Пульс 60–70% max.\n4. 3–5 хв заминка.",
+      protoScience: "Zone 2 тренує окислювальне фосфорилювання і збільшує щільність мітохондрій. Найсильніший доказовий спосіб підвищити базову енергію (мета-аналізи 2022+)." },
+    { id: "m08", album: "Тіло & Спорт", name: "Вправи для очей 20-20-20", timeMin: 3, cal: 2, strain: 1, glyph: "👁️", biohack: true,
+      protoHeadline: "Акомодація + digital eye strain",
+      protoBody: "1. Кожні 20 хв — 20 с дивись ≥ 6 м.\n2. 10 повільних моргань.\n3. Пальмінг 30 с.\n4. Фокус палець→далечінь ×5.",
+      protoScience: "Знижує астенопію і сухість очей від близької роботи." },
+    { id: "m09", album: "Deep Work", name: "Архітектурний кодинг", timeMin: 45, cal: 60, strain: 6, glyph: "🏗️", biohack: false,
+      protoHeadline: "Глибокий фокус + flow",
+      protoBody: "1. Один outcome.\n2. Закрий месенджери.\n3. 45-хв блок.\n4. Запиши рішення.\n5. 5-хв ретро.",
+      protoScience: "Глибока робота підвищує BDNF. Перемикання контексту коштує до 23 хв." },
+    { id: "m10", album: "Deep Work", name: "Мовний спринт", timeMin: 20, cal: 25, strain: 4, glyph: "🗣️", biohack: false,
+      protoHeadline: "Активне пригадування + SRS",
+      protoBody: "1. 10 хв Anki.\n2. 8 хв говоріння/shadowing.\n3. 2 хв помилки.",
+      protoScience: "Активне пригадування сильніше за пасивне читання." },
+    { id: "m11", album: "Deep Work", name: "Читання літератури", timeMin: 25, cal: 20, strain: 3, glyph: "📖", biohack: false,
       protoHeadline: "Глибоке читання vs скролінг",
-      protoBody: "1. Вибери один текст (книга/paper).\n2. 25 хв без телефону.\n3. Маркуй 3 ключові ідеї.\n4. 2-хв summary своїми словами.",
-      protoScience: "Глибоке читання активує мережі розуміння і критичного мислення. Скролінг тренує поверхневе сканування." },
-    { id: "m12", album: "Deep Work", name: "Zero Inbox — розбір пошти", timeMin: 15, cal: 18, strain: 4, glyph: "📥",
+      protoBody: "1. Один текст.\n2. 25 хв без телефону.\n3. 3 ключові ідеї.\n4. 2-хв summary.",
+      protoScience: "Глибоке читання активує мережі розуміння." },
+    { id: "m12", album: "Deep Work", name: "Zero Inbox", timeMin: 15, cal: 18, strain: 4, glyph: "📥", biohack: false,
       protoHeadline: "Когнітивне розвантаження",
-      protoBody: "1. Відкрий inbox.\n2. Кожен лист: Delete / Archive / Reply (<2 хв) / Defer.\n3. Мета — порожня скринька.\n4. Відповіді >2 хв — у todo.",
-      protoScience: "Відкриті петлі (Zeigarnik) споживають робочу пам’ять. Zero Inbox зменшує фонове когнітивне навантаження." },
-    { id: "m13", album: "Побут", name: "Бліц-клінінг 10 хв", timeMin: 10, cal: 55, strain: 3, glyph: "🧹",
+      protoBody: "1. Inbox.\n2. Delete / Archive / Reply / Defer.\n3. Мета — порожня скринька.",
+      protoScience: "Відкриті петлі (Zeigarnik) споживають робочу пам’ять." },
+    { id: "m13", album: "Побут", name: "Бліц-клінінг 10 хв", timeMin: 10, cal: 55, strain: 3, glyph: "🧹", biohack: false,
       protoHeadline: "Середовище → поведінка",
-      protoBody: "1. Таймер 10 хв.\n2. Прибери видимий хаос (поверхні, підлога).\n3. Не ідеально — достатньо «чисто на вигляд».\n4. Провітри.",
-      protoScience: "Візуальний порядок знижує кортизол і підвищує відчуття контролю. Ефект «broken windows» працює і вдома." },
-    { id: "m14", album: "Побут", name: "Посуд / посудомийка", timeMin: 8, cal: 30, strain: 2, glyph: "🍽️",
-      protoHeadline: "Міні-ритуал завершення циклу",
-      protoBody: "1. Зібрати весь брудний посуд.\n2. Завантажити / вимити.\n3. Протерти стільницю.\n4. Запустити машину або висушити.",
-      protoScience: "Завершення «відкритих циклів» (посуд, білизна) зменшує ментальне тертя наступного ранку." },
-    { id: "m15", album: "Побут", name: "Підготовка одягу", timeMin: 5, cal: 10, strain: 1, glyph: "👔",
-      protoHeadline: "Рішення наперед = економія willpower",
-      protoBody: "1. Вибери одяг на завтра.\n2. Перевір погоду.\n3. Поклади біля ліжка / на стілець.\n4. Готове взуття.",
-      protoScience: "Ранкові рішення витрачають глюкозу і willpower. Підготовка з вечора зберігає ресурс для важливих задач." },
-    { id: "m16", album: "Кухня", name: "Білковий сніданок", timeMin: 12, cal: 350, strain: 2, glyph: "🍳",
+      protoBody: "1. Таймер 10 хв.\n2. Прибери видимий хаос.\n3. Провітри.",
+      protoScience: "Візуальний порядок знижує кортизол." },
+    { id: "m14", album: "Побут", name: "Посуд / посудомийка", timeMin: 8, cal: 30, strain: 2, glyph: "🍽️", biohack: false,
+      protoHeadline: "Завершення циклу",
+      protoBody: "1. Зібрати посуд.\n2. Завантажити/вимити.\n3. Протерти стільницю.",
+      protoScience: "Завершення відкритих циклів зменшує ментальне тертя." },
+    { id: "m15", album: "Побут", name: "Підготовка одягу", timeMin: 5, cal: 10, strain: 1, glyph: "👔", biohack: false,
+      protoHeadline: "Економія willpower",
+      protoBody: "1. Одяг на завтра.\n2. Погода.\n3. Біля ліжка.",
+      protoScience: "Ранкові рішення витрачають глюкозу." },
+    { id: "m16", album: "Кухня", name: "Білковий сніданок", timeMin: 12, cal: 350, strain: 2, glyph: "🍳", biohack: true,
       protoHeadline: "Білок + жири → стабільна глюкоза",
-      protoBody: "1. 2–3 яйця (омлет/смажені).\n2. ½ авокадо або оливкова олія.\n3. Овочі (шпинат, помідор).\n4. Без соку / солодкого.",
-      protoScience: "Білок 25–40 г на сніданок підвищує ситість, стабілізує інсулін і підтримує синтез нейромедіаторів (тирозин → дофамін)." },
-    { id: "m17", album: "Кухня", name: "Суп на 3 дні", timeMin: 40, cal: 120, strain: 3, glyph: "🍲",
-      protoHeadline: "Batch cooking = менше рішень",
-      protoBody: "1. Овочі + білок (курка/боби) + бульйон.\n2. Варити 25–35 хв.\n3. Розлити в контейнери.\n4. Охолодити і в холодильник.",
-      protoScience: "Готування партіями зменшує кількість мікро-рішень протягом тижня і підвищує adherence до харчування." },
-    { id: "m18", album: "Кухня", name: "Зелений чай / матча", timeMin: 5, cal: 5, strain: 1, glyph: "🍵",
+      protoBody: "1. 2–3 яйця.\n2. ½ авокадо.\n3. Овочі.\n4. Без соку.",
+      protoScience: "25–40 г білка на сніданок підвищує ситість і підтримує синтез дофаміну (тирозин)." },
+    { id: "m17", album: "Кухня", name: "Суп на 3 дні", timeMin: 40, cal: 120, strain: 3, glyph: "🍲", biohack: false,
+      protoHeadline: "Batch cooking",
+      protoBody: "1. Овочі + білок + бульйон.\n2. 25–35 хв.\n3. Контейнери.",
+      protoScience: "Менше мікро-рішень протягом тижня." },
+    { id: "m18", album: "Кухня", name: "Зелений чай / матча", timeMin: 5, cal: 5, strain: 1, glyph: "🍵", biohack: true,
       protoHeadline: "L-теанін + кофеїн = спокійний фокус",
-      protoBody: "1. 1–2 г матчі або якісний сенча.\n2. Вода 70–80 °C.\n3. Збити / настояти 2 хв.\n4. Пити без цукру.",
-      protoScience: "L-теанін модулює альфа-хвилі і згладжує кофеїновий пік. Комбінація дає увагу без тривоги." },
-    { id: "m19", album: "Релакс", name: "Дихання 4-7-8", timeMin: 5, cal: 5, strain: 1, glyph: "🌬️",
+      protoBody: "1. 1–2 г матчі або сенча.\n2. Вода 70–80 °C.\n3. 2 хв.\n4. Без цукру.",
+      protoScience: "L-теанін модулює альфа-хвилі і згладжує кофеїновий пік." },
+    { id: "m19", album: "Релакс", name: "Дихання 4-7-8", timeMin: 5, cal: 5, strain: 1, glyph: "🌬️", biohack: true,
       protoHeadline: "Парасимпатична активація",
-      protoBody: "1. Вдих носом 4 с.\n2. Затримка 7 с.\n3. Видих ротом 8 с.\n4. Повторити 4–6 циклів.\n5. Сидячи або лежачи.",
-      protoScience: "Подовжений видих стимулює блукаючий нерв, знижує ЧСС і кортизол. Швидкий спосіб перемкнутись у «rest & digest»." },
-    { id: "m20", album: "Релакс", name: "Вечірній магнієвий протокол", timeMin: 8, cal: 0, strain: 1, glyph: "🌙",
+      protoBody: "1. Вдих носом 4 с.\n2. Затримка 7 с.\n3. Видих ротом 8 с.\n4. 4–6 циклів.",
+      protoScience: "Подовжений видих стимулює блукаючий нерв, знижує ЧСС і кортизол. Швидкий reset нервової системи." },
+    { id: "m20", album: "Релакс", name: "Вечірній магнієвий протокол", timeMin: 8, cal: 0, strain: 1, glyph: "🌙", biohack: true,
       protoHeadline: "Mg + затемнення → мелатонін",
-      protoBody: "1. Магній гліцинат/треонат 200–400 мг.\n2. Приглушити світло (теплі лампи).\n3. Без екранів 30+ хв.\n4. Коротка розтяжка або читання.",
-      protoScience: "Магній підтримує GABA і розслаблення м’язів. Темрява дозволяє епіфізу синтезувати мелатонін." },
-    { id: "m21", album: "Релакс", name: "Цифровий детокс 20 хв", timeMin: 20, cal: 10, strain: 2, glyph: "📵",
+      protoBody: "1. Магній гліцинат/треонат 200–400 мг.\n2. Приглушити світло.\n3. Без екранів 30+ хв.\n4. Коротка розтяжка.",
+      protoScience: "Магній підтримує GABA. Темрява дозволяє епіфізу синтезувати мелатонін. RCT показують покращення якості сну." },
+    { id: "m21", album: "Релакс", name: "Цифровий детокс 20 хв", timeMin: 20, cal: 10, strain: 2, glyph: "📵", biohack: true,
       protoHeadline: "Скидання дофамінової чутливості",
-      protoBody: "1. Телефон у іншу кімнату / режим «Не турбувати».\n2. 20 хв: прогулянка, розтяжка, чай, вікно.\n3. Без подкастів і музики (опційно тиша).",
-      protoScience: "Постійні нотифікації підтримують високий тон дофаміну. Короткі «детокси» відновлюють чутливість рецепторів і увагу." }
+      protoBody: "1. Телефон у іншу кімнату.\n2. 20 хв: прогулянка / розтяжка / чай / тиша.",
+      protoScience: "Постійні нотифікації підтримують високий тон дофаміну. Короткі детокси відновлюють чутливість рецепторів." },
+    { id: "m22", album: "Релакс", name: "Повільне дихання 6/хв", timeMin: 10, cal: 5, strain: 1, glyph: "🧘", biohack: true,
+      protoHeadline: "HRV + нервова регуляція",
+      protoBody: "1. Сядь зручно.\n2. Вдих 5 с, видих 5 с (6 циклів/хв).\n3. 8–10 хв.\n4. Без зусиль.",
+      protoScience: "6 вдихів/хв покращує варіабельність серцевого ритму і здатність нервової системи відновлюватись після стресу (дослідження Buck Institute та ін.)." }
   ];
 
-  // ═══════════════════════════════════════════════════════════
-  // STATE
-  // ═══════════════════════════════════════════════════════════
+  // Daily Biohack Informers (research-based)
+  const BIOHACKS = [
+    { id: "bh1", title: "Ранкове світло 10+ хв", body: "Вийди на вулицю протягом 30–60 хв після пробудження. Навіть хмарно — працює.", science: "Фіксує SCN, дає правильний кортизольний пік, підвищує дофамін і покращує нічний сон. Мета-аналізи підтверджують зниження втоми на 30–45%.", taskId: "m04", time: "morning" },
+    { id: "bh2", title: "Холодний фініш душу 30–90 с", body: "Закінчуй душ холодною водою. Почни з 20 с і нарощуй.", science: "Сплеск норадреналіну (×2–3) і дофаміну (~250%). Активує бурий жир і підвищує резистентність до стресу.", taskId: "m03", time: "morning" },
+    { id: "bh3", title: "Вода + електроліти одразу після сну", body: "400–500 мл води з дрібкою солі або електролітами.", science: "Втрата 1–2% маси тіла водою вже викликає втому і зниження концентрації. Швидке відновлення об’єму плазми.", taskId: "m02", time: "morning" },
+    { id: "bh4", title: "Zone 2 кардіо 20–40 хв", body: "Ходьба/біг у темпі, де можна говорити фразами.", science: "Найпотужніший стимул мітохондріального біогенезу. Мета-аналіз 81 RCT показав найсильніший ефект на зниження втоми.", taskId: "m07", time: "day" },
+    { id: "bh5", title: "Дихання 4-7-8 або 6 вдихів/хв", body: "4 с вдих → 7 с затримка → 8 с видих (або рівний 5/5).", science: "Стимулює блукаючий нерв, знижує кортизол і ЧСС. Швидкий парасимпатичний reset.", taskId: "m19", time: "any" },
+    { id: "bh6", title: "Білковий сніданок 25–40 г", body: "Яйця + авокадо / риба / грецький йогурт + горіхи.", science: "Стабілізує глюкозу і дає тирозин — попередник дофаміну. Зменшує післяобідній спад енергії.", taskId: "m16", time: "morning" },
+    { id: "bh7", title: "Магній увечері 200–400 мг", body: "Гліцинат або треонат + затемнення кімнати.", science: "Підтримує GABA і розслаблення. RCT показують покращення якості сну і денної бадьорості.", taskId: "m20", time: "evening" },
+    { id: "bh8", title: "Цифровий детокс 15–20 хв", body: "Телефон у іншу кімнату. Тиша або природа.", science: "Відновлює чутливість дофамінових рецепторів, знижених постійними нотифікаціями.", taskId: "m21", time: "any" },
+    { id: "bh9", title: "Короткий power-nap 10–20 хв", body: "До 15:00. Не довше 20 хв.", science: "Відновлює аденозиновий баланс і когнітивну продуктивність без інерції сну.", taskId: null, time: "day" },
+    { id: "bh10", title: "Вікно харчування 8–10 год", body: "Закінчуй їсти за 3–4 год до сну.", science: "Покращує циркадний метаболізм, зменшує денну втому і підтримує мітохондріальну ефективність.", taskId: null, time: "day" }
+  ];
+
   const STATE = {
     energy: 78,
     binauralOn: false,
     currentTab: "stream",
     studioMode: "spectrum",
     shuffle: false,
-    player: {
-      fsm: "IDLE", // IDLE | RUNNING | PAUSED | COMPLETED
-      currentId: null,
-      queue: [],
-      elapsedSec: 0,
-      durationSec: 0,
-      customTime: null,
-      customCal: null,
-      customStrain: null
-    },
+    player: { fsm: "IDLE", currentId: null, queue: [], elapsedSec: 0, durationSec: 0, customTime: null, customCal: null, customStrain: null },
     playlists: [
-      { id: "pl-day", name: "Mix Дня", glyph: "🌅", taskIds: ["m01", "m02", "m04", "m05", "m09", "m16"] },
-      { id: "pl-focus", name: "Deep Focus", glyph: "🎯", taskIds: ["m09", "m10", "m11", "m12"] },
-      { id: "pl-body", name: "Тіло", glyph: "💪", taskIds: ["m05", "m06", "m07", "m08"] }
+      { id: "pl-day", name: "Mix Дня", glyph: "🌅", taskIds: ["m01","m02","m04","m05","m09","m16"] },
+      { id: "pl-focus", name: "Deep Focus", glyph: "🎯", taskIds: ["m09","m10","m11","m12"] },
+      { id: "pl-body", name: "Тіло", glyph: "💪", taskIds: ["m05","m06","m07","m08"] },
+      { id: "pl-recover", name: "Відновлення", glyph: "🔋", taskIds: ["m02","m03","m04","m19","m20","m21","m22"] }
     ],
     activePlaylistId: "pl-day",
     journal: [],
     filterAlbum: "Усі",
     searchQuery: "",
-    ctxTaskId: null
+    ctxTaskId: null,
+    dailyBiohackIndex: 0,
+    lastSuggestTs: 0,
+    notifPermission: "default"
   };
 
-  // ═══════════════════════════════════════════════════════════
-  // FSM
-  // ═══════════════════════════════════════════════════════════
   const FSM = {
     can(action) {
       const s = STATE.player.fsm;
-      const map = {
-        IDLE: ["play"],
-        RUNNING: ["pause", "stop", "seek", "complete"],
-        PAUSED: ["play", "stop", "seek"],
-        COMPLETED: ["play", "stop"]
-      };
+      const map = { IDLE: ["play"], RUNNING: ["pause","stop","seek","complete"], PAUSED: ["play","stop","seek"], COMPLETED: ["play","stop"] };
       return (map[s] || []).includes(action);
     },
-    transition(to) {
-      STATE.player.fsm = to;
-      updatePlayerUI();
-      updateMediaSession();
-    }
+    transition(to) { STATE.player.fsm = to; updatePlayerUI(); updateMediaSession(); }
   };
 
-  // ═══════════════════════════════════════════════════════════
-  // WEB AUDIO — 40 Hz BINAURAL
-  // ═══════════════════════════════════════════════════════════
-  let audioCtx = null;
-  let oscL = null, oscR = null, gainNode = null, merger = null;
-
+  let audioCtx = null, oscL = null, oscR = null, gainNode = null, merger = null;
   function ensureAudio() {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === "suspended") audioCtx.resume();
   }
-
   function startBinaural() {
-    ensureAudio();
-    stopBinauralOsc();
-    const carrier = 200;
-    const beat = 40;
+    ensureAudio(); stopBinauralOsc();
+    const carrier = 200, beat = 40;
     merger = audioCtx.createChannelMerger(2);
-    gainNode = audioCtx.createGain();
-    gainNode.gain.value = 0.07;
-
-    oscL = audioCtx.createOscillator();
-    oscL.type = "sine";
-    oscL.frequency.value = carrier;
-    const gL = audioCtx.createGain();
-    gL.gain.value = 1;
-    oscL.connect(gL);
-    gL.connect(merger, 0, 0);
-
-    oscR = audioCtx.createOscillator();
-    oscR.type = "sine";
-    oscR.frequency.value = carrier + beat;
-    const gR = audioCtx.createGain();
-    gR.gain.value = 1;
-    oscR.connect(gR);
-    gR.connect(merger, 0, 1);
-
-    merger.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-    oscL.start();
-    oscR.start();
+    gainNode = audioCtx.createGain(); gainNode.gain.value = 0.07;
+    oscL = audioCtx.createOscillator(); oscL.type = "sine"; oscL.frequency.value = carrier;
+    const gL = audioCtx.createGain(); gL.gain.value = 1; oscL.connect(gL); gL.connect(merger, 0, 0);
+    oscR = audioCtx.createOscillator(); oscR.type = "sine"; oscR.frequency.value = carrier + beat;
+    const gR = audioCtx.createGain(); gR.gain.value = 1; oscR.connect(gR); gR.connect(merger, 0, 1);
+    merger.connect(gainNode); gainNode.connect(audioCtx.destination);
+    oscL.start(); oscR.start();
   }
-
   function stopBinauralOsc() {
-    try { if (oscL) { oscL.stop(); oscL.disconnect(); } } catch (e) {}
-    try { if (oscR) { oscR.stop(); oscR.disconnect(); } } catch (e) {}
-    try { if (gainNode) gainNode.disconnect(); } catch (e) {}
-    try { if (merger) merger.disconnect(); } catch (e) {}
+    try { if (oscL) { oscL.stop(); oscL.disconnect(); } } catch(e){}
+    try { if (oscR) { oscR.stop(); oscR.disconnect(); } } catch(e){}
+    try { if (gainNode) gainNode.disconnect(); } catch(e){}
+    try { if (merger) merger.disconnect(); } catch(e){}
     oscL = oscR = gainNode = merger = null;
   }
-
   function setBinaural(on) {
     STATE.binauralOn = on;
     const btn = document.getElementById("binauralBtn");
     const label = document.getElementById("binauralLabel");
-    if (on) {
-      startBinaural();
-      btn.classList.add("active");
-      label.textContent = "40Hz ON";
-    } else {
-      stopBinauralOsc();
-      btn.classList.remove("active");
-      label.textContent = "40Hz OFF";
-    }
+    if (on) { startBinaural(); btn.classList.add("active"); label.textContent = "40Hz ON"; }
+    else { stopBinauralOsc(); btn.classList.remove("active"); label.textContent = "40Hz OFF"; }
     haptic(15);
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // TIMER ENGINE
-  // ═══════════════════════════════════════════════════════════
-  let tickTimer = null;
-  let spectrumTimer = null;
-
+  let tickTimer = null, spectrumTimer = null;
   function startTick() {
     stopTick();
     tickTimer = setInterval(() => {
       if (STATE.player.fsm !== "RUNNING") return;
       STATE.player.elapsedSec += 1;
-      if (STATE.player.elapsedSec >= STATE.player.durationSec) {
-        completeCurrent();
-      } else {
-        updateProgressUI();
-      }
+      if (STATE.player.elapsedSec >= STATE.player.durationSec) completeCurrent();
+      else updateProgressUI();
     }, 1000);
   }
-
-  function stopTick() {
-    if (tickTimer) { clearInterval(tickTimer); tickTimer = null; }
-  }
-
+  function stopTick() { if (tickTimer) { clearInterval(tickTimer); tickTimer = null; } }
   function startSpectrum() {
     stopSpectrum();
     const bars = document.querySelectorAll(".sbar");
     spectrumTimer = setInterval(() => {
       if (STATE.player.fsm !== "RUNNING") return;
-      bars.forEach((b) => {
-        const h = 8 + Math.random() * 72;
-        b.style.height = h + "px";
-      });
+      bars.forEach(b => { b.style.height = (8 + Math.random() * 72) + "px"; });
       const g = document.getElementById("spectrumGlyph");
       if (g) g.classList.add("pulse");
     }, 120);
   }
-
   function stopSpectrum() {
     if (spectrumTimer) { clearInterval(spectrumTimer); spectrumTimer = null; }
     const g = document.getElementById("spectrumGlyph");
     if (g) g.classList.remove("pulse");
-    document.querySelectorAll(".sbar").forEach((b) => { b.style.height = "12px"; });
+    document.querySelectorAll(".sbar").forEach(b => { b.style.height = "12px"; });
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // PLAYER CORE
-  // ═══════════════════════════════════════════════════════════
-  function getTask(id) {
-    return MASTER.find((t) => t.id === id) || null;
-  }
-
+  function getTask(id) { return MASTER.find(t => t.id === id) || null; }
   function getEffective(task) {
     if (!task) return { timeMin: 0, cal: 0, strain: 1 };
     return {
@@ -1855,14 +758,11 @@ body::before {
       strain: STATE.player.customStrain != null ? STATE.player.customStrain : task.strain
     };
   }
-
   function loadTrack(id, resetElapsed) {
     const task = getTask(id);
     if (!task) return;
     STATE.player.currentId = id;
-    STATE.player.customTime = null;
-    STATE.player.customCal = null;
-    STATE.player.customStrain = null;
+    STATE.player.customTime = STATE.player.customCal = STATE.player.customStrain = null;
     if (resetElapsed !== false) STATE.player.elapsedSec = 0;
     const eff = getEffective(task);
     STATE.player.durationSec = eff.timeMin * 60;
@@ -1870,79 +770,63 @@ body::before {
     updatePlayerUI();
     updateMediaSession();
   }
-
   function play() {
     if (!STATE.player.currentId) {
-      if (STATE.player.queue.length === 0) {
-        toast("Черга порожня");
-        return;
-      }
+      if (!STATE.player.queue.length) { toast("Черга порожня"); return; }
       loadTrack(STATE.player.queue[0]);
     }
     if (!FSM.can("play") && STATE.player.fsm !== "COMPLETED") return;
-    if (STATE.player.fsm === "COMPLETED") {
-      STATE.player.elapsedSec = 0;
-    }
+    if (STATE.player.fsm === "COMPLETED") STATE.player.elapsedSec = 0;
     FSM.transition("RUNNING");
-    startTick();
-    startSpectrum();
+    startTick(); startSpectrum();
     ensureAudio();
     if (STATE.binauralOn) startBinaural();
     logEvent("play", STATE.player.currentId);
     haptic(20);
   }
-
   function pause() {
     if (!FSM.can("pause")) return;
     FSM.transition("PAUSED");
-    stopTick();
-    stopSpectrum();
+    stopTick(); stopSpectrum();
     logEvent("pause", STATE.player.currentId);
     haptic(12);
   }
-
   function stop() {
     FSM.transition("IDLE");
-    stopTick();
-    stopSpectrum();
+    stopTick(); stopSpectrum();
     STATE.player.elapsedSec = 0;
     updateProgressUI();
   }
-
   function completeCurrent() {
     if (STATE.player.fsm !== "RUNNING") return;
     const id = STATE.player.currentId;
     const task = getTask(id);
     FSM.transition("COMPLETED");
-    stopTick();
-    stopSpectrum();
+    stopTick(); stopSpectrum();
     if (task) {
       applyEnergyDelta(task);
       addToJournal(task);
       logEvent("complete", id);
+      if (task.biohack || task.strain <= 3) {
+        setTimeout(() => showSmartSuggest("recovery", task), 800);
+      }
     }
-    haptic([30, 40, 30]);
+    haptic([30,40,30]);
     toast("✓ " + (task ? task.name : "Сесію") + " завершено");
-    // auto next
     setTimeout(() => {
       const idx = STATE.player.queue.indexOf(id);
       if (idx >= 0 && idx < STATE.player.queue.length - 1) {
-        const nextId = STATE.player.queue[idx + 1];
-        loadTrack(nextId);
+        loadTrack(STATE.player.queue[idx + 1]);
         play();
       } else if (STATE.shuffle && STATE.player.queue.length > 1) {
         let nextId;
-        do {
-          nextId = STATE.player.queue[Math.floor(Math.random() * STATE.player.queue.length)];
-        } while (nextId === id && STATE.player.queue.length > 1);
+        do { nextId = STATE.player.queue[Math.floor(Math.random() * STATE.player.queue.length)]; }
+        while (nextId === id && STATE.player.queue.length > 1);
         loadTrack(nextId);
         play();
-      } else {
-        updatePlayerUI();
-      }
+      } else updatePlayerUI();
     }, 600);
   }
-
   function skipNext() {
     const id = STATE.player.currentId;
     const idx = id ? STATE.player.queue.indexOf(id) : -1;
@@ -1953,13 +837,12 @@ body::before {
     if (idx >= 0 && idx < STATE.player.queue.length - 1) {
       loadTrack(STATE.player.queue[idx + 1]);
       if (STATE.player.fsm === "RUNNING" || STATE.player.fsm === "PAUSED") play();
-    } else if (STATE.player.queue.length > 0) {
+    } else if (STATE.player.queue.length) {
       loadTrack(STATE.player.queue[0]);
       if (STATE.player.fsm === "RUNNING") play();
     }
     haptic(18);
   }
-
   function skipPrev() {
     const id = STATE.player.currentId;
     const idx = id ? STATE.player.queue.indexOf(id) : -1;
@@ -1975,33 +858,22 @@ body::before {
     }
     haptic(18);
   }
-
   function seekTo(ratio) {
     if (!FSM.can("seek") && STATE.player.fsm !== "RUNNING" && STATE.player.fsm !== "PAUSED") return;
     STATE.player.elapsedSec = Math.floor(STATE.player.durationSec * ratio);
     updateProgressUI();
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // ENERGY (Leaky Bucket)
-  // ═══════════════════════════════════════════════════════════
   function applyEnergyDelta(task) {
     const eff = getEffective(task);
     let delta = 0;
-    if (eff.strain >= 5) {
-      delta = -(eff.strain * 1.8 + eff.timeMin * 0.15);
-    } else if (eff.strain <= 3) {
-      delta = +(4 + (3 - eff.strain) * 2 + Math.min(eff.timeMin, 15) * 0.2);
-    } else {
-      delta = -(eff.strain * 0.6);
-    }
+    if (eff.strain >= 5) delta = -(eff.strain * 1.8 + eff.timeMin * 0.15);
+    else if (eff.strain <= 3) delta = +(5 + (3 - eff.strain) * 2.5 + Math.min(eff.timeMin, 15) * 0.25);
+    else delta = -(eff.strain * 0.6);
+    if (task.biohack) delta += 3;
     setEnergy(STATE.energy + delta);
   }
-
-  function applySkipPenalty() {
-    setEnergy(STATE.energy - 3);
-  }
-
+  function applySkipPenalty() { setEnergy(STATE.energy - 3); }
   function setEnergy(val) {
     STATE.energy = Math.max(0, Math.min(100, Math.round(val)));
     const fill = document.getElementById("energyFill");
@@ -2011,56 +883,36 @@ body::before {
     if (STATE.energy < 35) {
       fill.classList.add("low");
       document.getElementById("emergencyBanner").classList.add("show");
+      if (Date.now() - STATE.lastSuggestTs > 120000) {
+        showSmartSuggest("lowenergy");
+      }
     } else {
       fill.classList.remove("low");
       document.getElementById("emergencyBanner").classList.remove("show");
     }
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // JOURNAL + INDEXEDDB VAULT
-  // ═══════════════════════════════════════════════════════════
   let db = null;
-
   function openVault() {
     return new Promise((resolve, reject) => {
       const req = indexedDB.open("Human2_Private_Vault", 1);
-      req.onupgradeneeded = (e) => {
+      req.onupgradeneeded = e => {
         const d = e.target.result;
-        if (!d.objectStoreNames.contains("events")) {
-          d.createObjectStore("events", { keyPath: "id", autoIncrement: true });
-        }
-        if (!d.objectStoreNames.contains("journal")) {
-          d.createObjectStore("journal", { keyPath: "id", autoIncrement: true });
-        }
+        if (!d.objectStoreNames.contains("events")) d.createObjectStore("events", { keyPath: "id", autoIncrement: true });
+        if (!d.objectStoreNames.contains("journal")) d.createObjectStore("journal", { keyPath: "id", autoIncrement: true });
       };
-      req.onsuccess = (e) => { db = e.target.result; resolve(db); };
+      req.onsuccess = e => { db = e.target.result; resolve(db); };
       req.onerror = () => reject(req.error);
     });
   }
-
   function logEvent(type, taskId) {
     if (!db) return;
     const tx = db.transaction("events", "readwrite");
-    tx.objectStore("events").add({
-      type,
-      taskId,
-      ts: Date.now(),
-      energy: STATE.energy
-    });
+    tx.objectStore("events").add({ type, taskId, ts: Date.now(), energy: STATE.energy });
   }
-
   function addToJournal(task) {
     const eff = getEffective(task);
-    const entry = {
-      taskId: task.id,
-      name: task.name,
-      glyph: task.glyph,
-      timeMin: eff.timeMin,
-      cal: eff.cal,
-      strain: eff.strain,
-      ts: Date.now()
-    };
+    const entry = { taskId: task.id, name: task.name, glyph: task.glyph, timeMin: eff.timeMin, cal: eff.cal, strain: eff.strain, ts: Date.now(), biohack: !!task.biohack };
     STATE.journal.unshift(entry);
     if (STATE.journal.length > 50) STATE.journal.length = 50;
     if (db) {
@@ -2069,22 +921,16 @@ body::before {
     }
     renderJournal();
   }
-
   function loadJournalFromDB() {
     if (!db) return;
     const tx = db.transaction("journal", "readonly");
-    const store = tx.objectStore("journal");
-    const req = store.getAll();
+    const req = tx.objectStore("journal").getAll();
     req.onsuccess = () => {
-      const all = (req.result || []).sort((a, b) => b.ts - a.ts).slice(0, 50);
-      STATE.journal = all;
+      STATE.journal = (req.result || []).sort((a,b) => b.ts - a.ts).slice(0, 50);
       renderJournal();
     };
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // MEDIA SESSION
-  // ═══════════════════════════════════════════════════════════
   function updateMediaSession() {
     if (!("mediaSession" in navigator)) return;
     const task = getTask(STATE.player.currentId);
@@ -2093,38 +939,24 @@ body::before {
       artist: "LifeOS",
       album: task ? task.album : "Human 2.0"
     });
-    navigator.mediaSession.playbackState =
-      STATE.player.fsm === "RUNNING" ? "playing" :
-      STATE.player.fsm === "PAUSED" ? "paused" : "none";
-
+    navigator.mediaSession.playbackState = STATE.player.fsm === "RUNNING" ? "playing" : STATE.player.fsm === "PAUSED" ? "paused" : "none";
     navigator.mediaSession.setActionHandler("play", () => play());
     navigator.mediaSession.setActionHandler("pause", () => pause());
     navigator.mediaSession.setActionHandler("previoustrack", () => skipPrev());
     navigator.mediaSession.setActionHandler("nexttrack", () => skipNext());
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // UI HELPERS
-  // ═══════════════════════════════════════════════════════════
-  function haptic(ms) {
-    try {
-      if (navigator.vibrate) navigator.vibrate(ms);
-    } catch (e) {}
-  }
-
+  function haptic(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch(e){} }
   function toast(msg) {
     const el = document.getElementById("toast");
     el.textContent = msg;
     el.classList.add("show");
     setTimeout(() => el.classList.remove("show"), 2200);
   }
-
   function fmtTime(sec) {
-    const m = Math.floor(sec / 60);
-    const s = Math.floor(sec % 60);
-    return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+    const m = Math.floor(sec / 60), s = Math.floor(sec % 60);
+    return String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
   }
-
   function updateProgressUI() {
     const dur = STATE.player.durationSec || 1;
     const ratio = Math.min(1, STATE.player.elapsedSec / dur);
@@ -2132,17 +964,14 @@ body::before {
     document.getElementById("seekBar").value = Math.floor(ratio * 1000);
     document.getElementById("seekCurrent").textContent = fmtTime(STATE.player.elapsedSec);
     document.getElementById("seekTotal").textContent = fmtTime(dur);
-    document.getElementById("miniSub").textContent =
-      fmtTime(STATE.player.elapsedSec) + " / " + fmtTime(dur);
+    document.getElementById("miniSub").textContent = fmtTime(STATE.player.elapsedSec) + " / " + fmtTime(dur);
   }
-
   function updatePlayerUI() {
     const task = getTask(STATE.player.currentId);
     const dock = document.getElementById("miniDock");
     const playIcon = STATE.player.fsm === "RUNNING" ? "⏸" : "▶";
     document.getElementById("miniPlay").textContent = playIcon;
     document.getElementById("trPlay").textContent = playIcon;
-
     if (task) {
       dock.classList.add("visible");
       document.getElementById("miniGlyph").textContent = task.glyph;
@@ -2150,33 +979,26 @@ body::before {
       document.getElementById("spectrumGlyph").textContent = task.glyph;
       document.getElementById("studioTitle").textContent = task.name;
       document.getElementById("studioAlbum").textContent = task.album;
-    } else {
-      if (STATE.player.queue.length === 0) dock.classList.remove("visible");
-    }
+    } else if (!STATE.player.queue.length) dock.classList.remove("visible");
     updateProgressUI();
     renderQueue();
   }
-
   function updateStudioContent(task) {
     if (!task) return;
     document.getElementById("spectrumGlyph").textContent = task.glyph;
     document.getElementById("studioTitle").textContent = task.name;
-    document.getElementById("studioAlbum").textContent = task.album;
+    document.getElementById("studioAlbum").textContent = task.album + (task.biohack ? " · Біохак" : "");
     document.getElementById("protoHeadline").textContent = task.protoHeadline;
     document.getElementById("protoBody").textContent = task.protoBody;
     document.getElementById("protoScience").innerHTML = "<strong>Наука:</strong> " + task.protoScience;
-
     const eff = getEffective(task);
     document.getElementById("faderTime").value = eff.timeMin;
     document.getElementById("faderCal").value = eff.cal;
     document.getElementById("faderStrain").value = eff.strain;
     syncFaderLabels();
-
     const qBtn = document.getElementById("quantizeBtn");
-    if (eff.timeMin > 15) qBtn.classList.add("visible");
-    else qBtn.classList.remove("visible");
+    if (eff.timeMin > 15) qBtn.classList.add("visible"); else qBtn.classList.remove("visible");
   }
-
   function syncFaderLabels() {
     const t = +document.getElementById("faderTime").value;
     const c = +document.getElementById("faderCal").value;
@@ -2187,28 +1009,97 @@ body::before {
     document.getElementById("eqMetaTime").textContent = "⏱ " + fmtTime(t * 60);
     document.getElementById("eqMetaCal").textContent = "🔥 " + c + " ккал";
     document.getElementById("eqMetaStrain").textContent = "📊 " + s + "L";
-
     if (STATE.player.currentId) {
-      STATE.player.customTime = t;
-      STATE.player.customCal = c;
-      STATE.player.customStrain = s;
+      STATE.player.customTime = t; STATE.player.customCal = c; STATE.player.customStrain = s;
       STATE.player.durationSec = t * 60;
-      if (STATE.player.elapsedSec > STATE.player.durationSec) {
-        STATE.player.elapsedSec = STATE.player.durationSec;
-      }
+      if (STATE.player.elapsedSec > STATE.player.durationSec) STATE.player.elapsedSec = STATE.player.durationSec;
       updateProgressUI();
       const qBtn = document.getElementById("quantizeBtn");
-      if (t > 15) qBtn.classList.add("visible");
-      else qBtn.classList.remove("visible");
+      if (t > 15) qBtn.classList.add("visible"); else qBtn.classList.remove("visible");
     }
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // RENDERERS
-  // ═══════════════════════════════════════════════════════════
+  // Daily Biohack + Smart Suggest
+  function getTimeOfDay() {
+    const h = new Date().getHours();
+    if (h < 11) return "morning";
+    if (h < 17) return "day";
+    return "evening";
+  }
+  function pickDailyBiohack() {
+    const tod = getTimeOfDay();
+    const pool = BIOHACKS.filter(b => b.time === tod || b.time === "any");
+    const list = pool.length ? pool : BIOHACKS;
+    STATE.dailyBiohackIndex = (STATE.dailyBiohackIndex + 1) % list.length;
+    return list[STATE.dailyBiohackIndex];
+  }
+  function renderDailyBiohack(bh) {
+    if (!bh) bh = pickDailyBiohack();
+    document.getElementById("bhTitle").textContent = bh.title;
+    document.getElementById("bhBody").textContent = bh.body;
+    document.getElementById("bhScience").textContent = "🔬 " + bh.science;
+    document.getElementById("bhDoIt").dataset.task = bh.taskId || "";
+  }
+  function showSmartSuggest(reason, task) {
+    if (Date.now() - STATE.lastSuggestTs < 90000) return;
+    STATE.lastSuggestTs = Date.now();
+    const el = document.getElementById("smartSuggest");
+    const title = document.getElementById("ssTitle");
+    const body = document.getElementById("ssBody");
+    const goBtn = document.getElementById("ssGo");
+    let suggestTaskId = null;
+    let msg = "";
+
+    if (reason === "lowenergy") {
+      title.textContent = "⚡ Енергія < 35%";
+      const recover = ["m19","m02","m22","m03","m04"].map(getTask).filter(Boolean);
+      const pick = recover[Math.floor(Math.random() * recover.length)];
+      msg = "Рекомендую швидке відновлення: «" + pick.name + "». Strain " + pick.strain + " · +" + (5 + (3-pick.strain)*2) + "% енергії.";
+      suggestTaskId = pick.id;
+    } else if (reason === "recovery" && task) {
+      title.textContent = "🔋 Відновлення завершено";
+      msg = "Гарна робота. " + (task.biohack ? "Це був біохак — мітохондрії і нервова система дякують." : "Низький strain допоміг зарядити батарейку.");
+      suggestTaskId = null;
+    } else if (reason === "morning") {
+      title.textContent = "☀️ Ранковий протокол";
+      msg = "Світло + вода + холодний фініш душу — найсильніший старт дня за даними досліджень.";
+      suggestTaskId = "m04";
+    } else {
+      return;
+    }
+    body.textContent = msg;
+    goBtn.dataset.task = suggestTaskId || "";
+    goBtn.style.display = suggestTaskId ? "block" : "none";
+    el.classList.add("show");
+    sendLocalNotification(title.textContent, msg);
+    setTimeout(() => el.classList.remove("show"), 12000);
+  }
+
+  function requestNotifPermission() {
+    if (!("Notification" in window)) return;
+    if (Notification.permission === "granted") {
+      STATE.notifPermission = "granted";
+      return;
+    }
+    if (Notification.permission !== "denied") {
+      Notification.requestPermission().then(p => { STATE.notifPermission = p; });
+    }
+  }
+  function sendLocalNotification(title, body) {
+    if (STATE.notifPermission !== "granted") return;
+    try {
+      new Notification("Human 2.0 · " + title, {
+        body: body,
+        icon: undefined,
+        silent: false,
+        tag: "h2-biohack"
+      });
+    } catch(e) {}
+  }
+
   function renderPlaylists() {
     const el = document.getElementById("playlistCarousel");
-    el.innerHTML = STATE.playlists.map((pl) => {
+    el.innerHTML = STATE.playlists.map(pl => {
       const active = pl.id === STATE.activePlaylistId ? " active" : "";
       return `<div class="playlist-card${active}" data-pl="${pl.id}">
         <div class="pc-glyph">${pl.glyph}</div>
@@ -2216,38 +1107,36 @@ body::before {
         <div class="pc-meta">${pl.taskIds.length} дій</div>
       </div>`;
     }).join("");
-    el.querySelectorAll(".playlist-card").forEach((card) => {
+    el.querySelectorAll(".playlist-card").forEach(card => {
       card.addEventListener("click", () => {
         haptic(12);
         STATE.activePlaylistId = card.dataset.pl;
-        const pl = STATE.playlists.find((p) => p.id === STATE.activePlaylistId);
+        const pl = STATE.playlists.find(p => p.id === STATE.activePlaylistId);
         if (pl) {
           STATE.player.queue = pl.taskIds.slice();
           if (STATE.player.fsm === "IDLE" || STATE.player.fsm === "COMPLETED") {
             if (STATE.player.queue.length) loadTrack(STATE.player.queue[0]);
           }
         }
-        renderPlaylists();
-        renderQueue();
+        renderPlaylists(); renderQueue();
         toast("Плейлист: " + pl.name);
       });
     });
   }
-
   function renderQueue() {
     const el = document.getElementById("queueList");
     if (!STATE.player.queue.length) {
       el.innerHTML = '<div class="empty-queue">Черга порожня · додай дії з Каталогу</div>';
       return;
     }
-    el.innerHTML = STATE.player.queue.map((id, i) => {
+    el.innerHTML = STATE.player.queue.map(id => {
       const t = getTask(id);
       if (!t) return "";
       const playing = id === STATE.player.currentId ? " playing" : "";
       return `<div class="queue-item${playing}" data-id="${id}">
         <div class="qi-glyph">${t.glyph}</div>
         <div class="qi-info">
-          <div class="qi-name">${t.name}</div>
+          <div class="qi-name">${t.name}${t.biohack ? " · 🔬" : ""}</div>
           <div class="qi-meta">${t.timeMin} хв · ${t.cal} ккал · Strain ${t.strain}</div>
         </div>
         <div class="qi-actions">
@@ -2256,62 +1145,42 @@ body::before {
         </div>
       </div>`;
     }).join("");
-
-    el.querySelectorAll(".play-qi").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        haptic(15);
-        loadTrack(btn.dataset.id);
-        play();
-      });
+    el.querySelectorAll(".play-qi").forEach(btn => {
+      btn.addEventListener("click", e => { e.stopPropagation(); haptic(15); loadTrack(btn.dataset.id); play(); });
     });
-    el.querySelectorAll(".qi-btn.remove").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        haptic(10);
+    el.querySelectorAll(".qi-btn.remove").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.stopPropagation(); haptic(10);
         const id = btn.dataset.id;
-        STATE.player.queue = STATE.player.queue.filter((x) => x !== id);
+        STATE.player.queue = STATE.player.queue.filter(x => x !== id);
         if (STATE.player.currentId === id) {
           stop();
           STATE.player.currentId = STATE.player.queue[0] || null;
           if (STATE.player.currentId) loadTrack(STATE.player.currentId);
         }
-        renderQueue();
-        updatePlayerUI();
+        renderQueue(); updatePlayerUI();
       });
     });
   }
-
   function renderCatalog() {
-    const albums = ["Усі", ...new Set(MASTER.map((t) => t.album))];
+    const albums = ["Усі", "Біохаки", ...new Set(MASTER.map(t => t.album))];
     const chips = document.getElementById("filterChips");
-    chips.innerHTML = albums.map((a) => {
+    chips.innerHTML = albums.map(a => {
       const active = a === STATE.filterAlbum ? " active" : "";
       return `<button class="chip${active}" data-album="${a}" type="button">${a}</button>`;
     }).join("");
-    chips.querySelectorAll(".chip").forEach((c) => {
-      c.addEventListener("click", () => {
-        haptic(10);
-        STATE.filterAlbum = c.dataset.album;
-        renderCatalog();
-      });
+    chips.querySelectorAll(".chip").forEach(c => {
+      c.addEventListener("click", () => { haptic(10); STATE.filterAlbum = c.dataset.album; renderCatalog(); });
     });
-
     let list = MASTER.slice();
-    if (STATE.filterAlbum !== "Усі") {
-      list = list.filter((t) => t.album === STATE.filterAlbum);
-    }
+    if (STATE.filterAlbum === "Біохаки") list = list.filter(t => t.biohack);
+    else if (STATE.filterAlbum !== "Усі") list = list.filter(t => t.album === STATE.filterAlbum);
     if (STATE.searchQuery) {
       const q = STATE.searchQuery.toLowerCase();
-      list = list.filter((t) =>
-        t.name.toLowerCase().includes(q) ||
-        t.album.toLowerCase().includes(q) ||
-        t.protoHeadline.toLowerCase().includes(q)
-      );
+      list = list.filter(t => t.name.toLowerCase().includes(q) || t.album.toLowerCase().includes(q) || t.protoHeadline.toLowerCase().includes(q));
     }
-
     const grid = document.getElementById("catalogGrid");
-    grid.innerHTML = list.map((t) => {
+    grid.innerHTML = list.map(t => {
       const selected = STATE.player.queue.includes(t.id) ? " selected" : "";
       return `<div class="task-card${selected}" data-id="${t.id}">
         <div class="tc-glyph">${t.glyph}</div>
@@ -2320,70 +1189,56 @@ body::before {
           <div class="tc-meta">
             <span>${t.timeMin} хв</span>
             <span>${t.cal} ккал</span>
-            <span class="tc-strain">Strain ${t.strain}</span>
+            <span class="tc-strain${t.biohack ? " tc-bio" : ""}">${t.biohack ? "Біохак" : "Strain " + t.strain}</span>
           </div>
         </div>
         <div class="tc-actions">
-          <button class="tc-btn add-q" data-id="${t.id}" type="button" title="В чергу">＋</button>
+          <button class="tc-btn add-q" data-id="${t.id}" type="button">＋</button>
         </div>
       </div>`;
     }).join("") || '<div class="empty-queue">Нічого не знайдено</div>';
-
-    grid.querySelectorAll(".add-q").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        haptic(14);
+    grid.querySelectorAll(".add-q").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.stopPropagation(); haptic(14);
         const id = btn.dataset.id;
-        if (!STATE.player.queue.includes(id)) {
-          STATE.player.queue.push(id);
-          toast("Додано в чергу");
-        } else {
-          toast("Вже в черзі");
-        }
-        renderCatalog();
-        renderQueue();
-        updatePlayerUI();
+        if (!STATE.player.queue.includes(id)) { STATE.player.queue.push(id); toast("Додано в чергу"); }
+        else toast("Вже в черзі");
+        renderCatalog(); renderQueue(); updatePlayerUI();
       });
     });
-
-    grid.querySelectorAll(".task-card").forEach((card) => {
-      card.addEventListener("click", (e) => {
+    grid.querySelectorAll(".task-card").forEach(card => {
+      card.addEventListener("click", e => {
         if (e.target.closest(".tc-btn")) return;
         haptic(12);
-        const id = card.dataset.id;
-        showCtxMenu(e, id);
+        showCtxMenu(e, card.dataset.id);
       });
     });
   }
-
   function renderJournal() {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const todayEntries = STATE.journal.filter((j) => j.ts >= today.getTime());
-    const totalMin = todayEntries.reduce((s, j) => s + (j.timeMin || 0), 0);
-    const totalCal = todayEntries.reduce((s, j) => s + (j.cal || 0), 0);
+    const today = new Date(); today.setHours(0,0,0,0);
+    const todayEntries = STATE.journal.filter(j => j.ts >= today.getTime());
+    const totalMin = todayEntries.reduce((s,j) => s + (j.timeMin||0), 0);
+    const totalCal = todayEntries.reduce((s,j) => s + (j.cal||0), 0);
     document.getElementById("statSessions").textContent = todayEntries.length;
     document.getElementById("statMinutes").textContent = totalMin;
     document.getElementById("statCals").textContent = totalCal;
-
     const el = document.getElementById("journalList");
     if (!todayEntries.length) {
       el.innerHTML = '<div class="empty-queue">Ще немає завершених сесій</div>';
       return;
     }
-    el.innerHTML = todayEntries.map((j) => {
+    el.innerHTML = todayEntries.map(j => {
       const time = new Date(j.ts).toLocaleTimeString("uk-UA", { hour: "2-digit", minute: "2-digit" });
       return `<div class="journal-item">
         <div class="ji-glyph">${j.glyph}</div>
         <div class="ji-info">
-          <div class="ji-name">${j.name}</div>
+          <div class="ji-name">${j.name}${j.biohack ? " · 🔬" : ""}</div>
           <div class="ji-meta">${time} · ${j.timeMin} хв · ${j.cal} ккал</div>
         </div>
         <div class="ji-status">DONE</div>
       </div>`;
     }).join("");
   }
-
   function buildSpectrumBars() {
     const el = document.getElementById("spectrumBars");
     el.innerHTML = "";
@@ -2394,50 +1249,32 @@ body::before {
     }
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // CONTEXT MENU
-  // ═══════════════════════════════════════════════════════════
   function showCtxMenu(e, taskId) {
     STATE.ctxTaskId = taskId;
     const menu = document.getElementById("ctxMenu");
     const x = Math.min(e.clientX || 100, window.innerWidth - 200);
     const y = Math.min(e.clientY || 200, window.innerHeight - 160);
-    menu.style.left = x + "px";
-    menu.style.top = y + "px";
+    menu.style.left = x + "px"; menu.style.top = y + "px";
     menu.classList.add("open");
   }
+  function hideCtxMenu() { document.getElementById("ctxMenu").classList.remove("open"); STATE.ctxTaskId = null; }
 
-  function hideCtxMenu() {
-    document.getElementById("ctxMenu").classList.remove("open");
-    STATE.ctxTaskId = null;
-  }
-
-  // ═══════════════════════════════════════════════════════════
-  // STUDIO OPEN / CLOSE
-  // ═══════════════════════════════════════════════════════════
   function openStudio() {
     document.getElementById("studioOverlay").classList.add("open");
     document.getElementById("studioSheet").classList.add("open");
     haptic(18);
   }
-
   function closeStudio() {
     document.getElementById("studioOverlay").classList.remove("open");
     document.getElementById("studioSheet").classList.remove("open");
     haptic(10);
   }
-
-  // ═══════════════════════════════════════════════════════════
-  // QUANTIZE
-  // ═══════════════════════════════════════════════════════════
   function quantize() {
     const task = getTask(STATE.player.currentId);
     if (!task) return;
     const total = STATE.player.customTime || task.timeMin;
     if (total <= 15) return;
-    const ramp = 5;
-    const check = Math.min(5, Math.floor(total * 0.15));
-    const core = total - ramp - check;
+    const ramp = 5, check = Math.min(5, Math.floor(total * 0.15)), core = total - ramp - check;
     const parts = [
       { name: task.name + " · Розгін", timeMin: ramp, cal: Math.round(task.cal * ramp / total), strain: Math.max(1, task.strain - 1), glyph: "🚀" },
       { name: task.name + " · Ядро", timeMin: core, cal: Math.round(task.cal * core / total), strain: task.strain, glyph: task.glyph },
@@ -2447,46 +1284,24 @@ body::before {
     const newIds = [];
     parts.forEach((p, i) => {
       const nid = "q_" + task.id + "_" + i + "_" + Date.now();
-      MASTER.push({
-        id: nid,
-        album: task.album,
-        name: p.name,
-        timeMin: p.timeMin,
-        cal: p.cal,
-        strain: p.strain,
-        glyph: p.glyph,
-        protoHeadline: task.protoHeadline,
-        protoBody: task.protoBody,
-        protoScience: task.protoScience
-      });
+      MASTER.push({ id: nid, album: task.album, name: p.name, timeMin: p.timeMin, cal: p.cal, strain: p.strain, glyph: p.glyph, biohack: task.biohack, protoHeadline: task.protoHeadline, protoBody: task.protoBody, protoScience: task.protoScience });
       newIds.push(nid);
     });
     STATE.player.queue.splice(idx, 1, ...newIds);
     loadTrack(newIds[0]);
     renderQueue();
     toast("Розщеплено на 3 кванти");
-    haptic([20, 30, 20]);
+    haptic([20,30,20]);
   }
-
-  // ═══════════════════════════════════════════════════════════
-  // TAB NAV
-  // ═══════════════════════════════════════════════════════════
   function switchTab(tab) {
     STATE.currentTab = tab;
-    document.querySelectorAll(".screen").forEach((s) => {
-      s.classList.toggle("active", s.dataset.tab === tab);
-    });
-    document.querySelectorAll(".nav-item").forEach((n) => {
-      n.classList.toggle("active", n.dataset.nav === tab);
-    });
+    document.querySelectorAll(".screen").forEach(s => s.classList.toggle("active", s.dataset.tab === tab));
+    document.querySelectorAll(".nav-item").forEach(n => n.classList.toggle("active", n.dataset.nav === tab));
     if (tab === "player") openStudio();
     if (tab === "safe") renderJournal();
     haptic(10);
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // INIT + EVENTS
-  // ═══════════════════════════════════════════════════════════
   function init() {
     buildSpectrumBars();
     setEnergy(STATE.energy);
@@ -2494,102 +1309,67 @@ body::before {
     renderQueue();
     renderCatalog();
     renderJournal();
+    renderDailyBiohack();
 
-    // Load day mix into queue by default
-    const day = STATE.playlists.find((p) => p.id === "pl-day");
+    const day = STATE.playlists.find(p => p.id === "pl-day");
     if (day) STATE.player.queue = day.taskIds.slice();
     renderQueue();
 
-    openVault().then(() => {
-      loadJournalFromDB();
-    }).catch(() => {});
+    openVault().then(() => loadJournalFromDB()).catch(() => {});
+    requestNotifPermission();
 
-    // Nav
-    document.querySelectorAll(".nav-item").forEach((btn) => {
-      btn.addEventListener("click", () => switchTab(btn.dataset.nav));
-    });
+    // Time-based morning suggest
+    if (getTimeOfDay() === "morning" && STATE.energy > 40) {
+      setTimeout(() => showSmartSuggest("morning"), 2500);
+    }
 
-    // Binaural
-    document.getElementById("binauralBtn").addEventListener("click", () => {
-      setBinaural(!STATE.binauralOn);
-    });
+    document.querySelectorAll(".nav-item").forEach(btn => btn.addEventListener("click", () => switchTab(btn.dataset.nav)));
+    document.getElementById("binauralBtn").addEventListener("click", () => setBinaural(!STATE.binauralOn));
 
-    // Mini dock
-    document.getElementById("miniDock").addEventListener("click", (e) => {
-      if (e.target.closest(".mini-controls")) return;
-      openStudio();
-    });
-    document.getElementById("miniPlay").addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (STATE.player.fsm === "RUNNING") pause();
-      else play();
-    });
-    document.getElementById("miniPrev").addEventListener("click", (e) => {
-      e.stopPropagation();
-      skipPrev();
-    });
-    document.getElementById("miniNext").addEventListener("click", (e) => {
-      e.stopPropagation();
-      skipNext();
-    });
+    document.getElementById("miniDock").addEventListener("click", e => { if (!e.target.closest(".mini-controls")) openStudio(); });
+    document.getElementById("miniPlay").addEventListener("click", e => { e.stopPropagation(); STATE.player.fsm === "RUNNING" ? pause() : play(); });
+    document.getElementById("miniPrev").addEventListener("click", e => { e.stopPropagation(); skipPrev(); });
+    document.getElementById("miniNext").addEventListener("click", e => { e.stopPropagation(); skipNext(); });
 
-    // Studio
     document.getElementById("studioOverlay").addEventListener("click", closeStudio);
     document.getElementById("studioCollapse").addEventListener("click", closeStudio);
-    document.getElementById("trPlay").addEventListener("click", () => {
-      if (STATE.player.fsm === "RUNNING") pause();
-      else play();
-    });
+    document.getElementById("trPlay").addEventListener("click", () => STATE.player.fsm === "RUNNING" ? pause() : play());
     document.getElementById("trPrev").addEventListener("click", skipPrev);
     document.getElementById("trNext").addEventListener("click", skipNext);
 
-    document.querySelectorAll(".mode-tab").forEach((tab) => {
+    document.querySelectorAll(".mode-tab").forEach(tab => {
       tab.addEventListener("click", () => {
         haptic(10);
         STATE.studioMode = tab.dataset.mode;
-        document.querySelectorAll(".mode-tab").forEach((t) => t.classList.remove("active"));
+        document.querySelectorAll(".mode-tab").forEach(t => t.classList.remove("active"));
         tab.classList.add("active");
-        document.querySelectorAll(".stage-panel").forEach((p) => p.classList.remove("active"));
+        document.querySelectorAll(".stage-panel").forEach(p => p.classList.remove("active"));
         document.getElementById("panel-" + STATE.studioMode).classList.add("active");
       });
     });
-
     document.getElementById("shuffleBtn").addEventListener("click", () => {
       STATE.shuffle = !STATE.shuffle;
       document.getElementById("shuffleBtn").classList.toggle("on", STATE.shuffle);
-      haptic(12);
-      toast(STATE.shuffle ? "Shuffle ON" : "Shuffle OFF");
+      haptic(12); toast(STATE.shuffle ? "Shuffle ON" : "Shuffle OFF");
     });
-
-    document.getElementById("seekBar").addEventListener("input", (e) => {
-      seekTo(+e.target.value / 1000);
+    document.getElementById("seekBar").addEventListener("input", e => seekTo(+e.target.value / 1000));
+    ["faderTime","faderCal","faderStrain"].forEach(id => {
+      document.getElementById(id).addEventListener("input", () => { syncFaderLabels(); haptic(8); });
     });
-
-    ["faderTime", "faderCal", "faderStrain"].forEach((id) => {
-      document.getElementById(id).addEventListener("input", () => {
-        syncFaderLabels();
-        haptic(8);
-      });
-    });
-
     document.getElementById("quantizeBtn").addEventListener("click", quantize);
 
-    // Search
-    document.getElementById("catalogSearch").addEventListener("input", (e) => {
+    document.getElementById("catalogSearch").addEventListener("input", e => {
       STATE.searchQuery = e.target.value.trim();
       renderCatalog();
     });
 
-    // New playlist
     document.getElementById("btnNewPlaylist").addEventListener("click", () => {
       document.getElementById("plModal").classList.add("open");
       document.getElementById("plNameInput").value = "";
       document.getElementById("plNameInput").focus();
       haptic(12);
     });
-    document.getElementById("plCancel").addEventListener("click", () => {
-      document.getElementById("plModal").classList.remove("open");
-    });
+    document.getElementById("plCancel").addEventListener("click", () => document.getElementById("plModal").classList.remove("open"));
     document.getElementById("plOk").addEventListener("click", () => {
       const name = document.getElementById("plNameInput").value.trim() || "Мій плейлист";
       const id = "pl-custom-" + Date.now();
@@ -2601,8 +1381,7 @@ body::before {
       haptic(20);
     });
 
-    // Context menu
-    document.getElementById("ctxMenu").addEventListener("click", (e) => {
+    document.getElementById("ctxMenu").addEventListener("click", e => {
       const item = e.target.closest(".ctx-item");
       if (!item || !STATE.ctxTaskId) return;
       const action = item.dataset.action;
@@ -2611,48 +1390,75 @@ body::before {
       if (action === "play-next") {
         const cur = STATE.player.currentId;
         const idx = cur ? STATE.player.queue.indexOf(cur) : -1;
-        const filtered = STATE.player.queue.filter((x) => x !== id);
-        const insertAt = idx >= 0 ? idx + 1 : 0;
-        filtered.splice(insertAt, 0, id);
+        const filtered = STATE.player.queue.filter(x => x !== id);
+        filtered.splice(idx >= 0 ? idx + 1 : 0, 0, id);
         STATE.player.queue = filtered;
         toast("Буде наступним");
       } else if (action === "queue-end") {
         if (!STATE.player.queue.includes(id)) STATE.player.queue.push(id);
-        else {
-          STATE.player.queue = STATE.player.queue.filter((x) => x !== id);
-          STATE.player.queue.push(id);
-        }
+        else { STATE.player.queue = STATE.player.queue.filter(x => x !== id); STATE.player.queue.push(id); }
         toast("В кінець черги");
       } else if (action === "remove") {
-        STATE.player.queue = STATE.player.queue.filter((x) => x !== id);
+        STATE.player.queue = STATE.player.queue.filter(x => x !== id);
         toast("Видалено");
       }
-      renderQueue();
-      renderCatalog();
-      updatePlayerUI();
+      renderQueue(); renderCatalog(); updatePlayerUI();
       haptic(12);
     });
-
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest("#ctxMenu") && !e.target.closest(".task-card")) {
-        hideCtxMenu();
-      }
+    document.addEventListener("click", e => {
+      if (!e.target.closest("#ctxMenu") && !e.target.closest(".task-card")) hideCtxMenu();
     });
 
-    // Prevent double-tap zoom
+    // Biohack card actions
+    document.getElementById("bhDoIt").addEventListener("click", () => {
+      const tid = document.getElementById("bhDoIt").dataset.task;
+      if (tid) {
+        if (!STATE.player.queue.includes(tid)) STATE.player.queue.unshift(tid);
+        loadTrack(tid);
+        play();
+        openStudio();
+        toast("Запущено біохак");
+      } else toast("Просто зроби це зараз 🙌");
+      haptic(18);
+    });
+    document.getElementById("bhNext").addEventListener("click", () => {
+      renderDailyBiohack(pickDailyBiohack());
+      haptic(10);
+    });
+
+    // Smart suggest
+    document.getElementById("ssGo").addEventListener("click", () => {
+      const tid = document.getElementById("ssGo").dataset.task;
+      if (tid) {
+        if (!STATE.player.queue.includes(tid)) STATE.player.queue.unshift(tid);
+        loadTrack(tid);
+        play();
+        openStudio();
+      }
+      document.getElementById("smartSuggest").classList.remove("show");
+      haptic(15);
+    });
+    document.getElementById("ssDismiss").addEventListener("click", () => {
+      document.getElementById("smartSuggest").classList.remove("show");
+      haptic(8);
+    });
+
+    // Emergency banner → recovery
+    document.getElementById("emergencyBanner").addEventListener("click", () => {
+      showSmartSuggest("lowenergy");
+      haptic(20);
+    });
+
     let lastTouch = 0;
-    document.addEventListener("touchend", (e) => {
+    document.addEventListener("touchend", e => {
       const now = Date.now();
       if (now - lastTouch <= 300) e.preventDefault();
       lastTouch = now;
     }, { passive: false });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
 })();
 </script>
 </body>
